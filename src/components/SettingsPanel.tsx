@@ -1,50 +1,49 @@
-import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
-import { Slider } from "@/components/ui/slider"
 import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Slider } from "@/components/ui/slider"
 
 export default function SettingsPanel() {
   return (
-    <div className="space-y-6">
-      <h2 className="text-xl font-semibold mb-4">Settings</h2>
-      
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="ai-enabled">Enable AI-powered scanning</Label>
-          <Switch id="ai-enabled" />
+    <Card>
+      <CardHeader>
+        <CardTitle>Settings</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <Label htmlFor="notifications" className="flex flex-col space-y-1">
+              <span>Enable Notifications</span>
+              <span className="font-normal text-sm text-muted-foreground">Receive alerts for new vulnerabilities</span>
+            </Label>
+            <Switch id="notifications" />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="scan-frequency">Scan Frequency (days)</Label>
+            <Slider
+              id="scan-frequency"
+              defaultValue={[7]}
+              max={30}
+              step={1}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="ai-assistance" className="flex flex-col space-y-1">
+              <span>AI-Assisted Analysis</span>
+              <span className="font-normal text-sm text-muted-foreground">Use AI to enhance vulnerability detection</span>
+            </Label>
+            <Switch id="ai-assistance" />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label htmlFor="auto-update" className="flex flex-col space-y-1">
+              <span>Automatic Updates</span>
+              <span className="font-normal text-sm text-muted-foreground">Keep security definitions up-to-date</span>
+            </Label>
+            <Switch id="auto-update" />
+          </div>
         </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="confidence-threshold">AI Confidence Threshold</Label>
-          <Slider
-            id="confidence-threshold"
-            min={0}
-            max={100}
-            step={1}
-            defaultValue={[75]}
-          />
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="api-key">OpenAI API Key</Label>
-          <Input id="api-key" type="password" placeholder="Enter your OpenAI API key" />
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="scan-frequency">Automatic Scan Frequency (hours)</Label>
-          <Input id="scan-frequency" type="number" min={1} max={24} defaultValue={4} />
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <Label htmlFor="notifications">Enable notifications</Label>
-          <Switch id="notifications" />
-        </div>
-      </div>
-      
-      <Button className="w-full">Save Settings</Button>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
