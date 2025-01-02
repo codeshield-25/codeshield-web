@@ -1,79 +1,60 @@
-import React, { useState } from 'react'
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 
 export default function SecureCodeGeneration() {
-  const [codeType, setCodeType] = useState('')
+  const [selectedPattern, setSelectedPattern] = useState('')
   const [generatedCode, setGeneratedCode] = useState('')
+
+  const securityPatterns = [
+    'Input Validation',
+    'Authentication',
+    'Authorization',
+    'Session Management',
+    'Error Handling',
+  ]
 
   const handleGenerate = () => {
     // Simulating code generation
-    let code = ''
-    switch (codeType) {
-      case 'inputValidation':
-        code = `function validateInput(input) {
-  // Remove any potentially harmful characters
-  const sanitizedInput = input.replace(/[<>&'"]/g, '');
-  
-  // Check if the input is not empty and within a reasonable length
-  if (sanitizedInput.length > 0 && sanitizedInput.length <= 100) {
-    return sanitizedInput;
-  } else {
-    throw new Error('Invalid input');
-  }
-}`
-        break
-      case 'authentication':
-        code = `import bcrypt from 'bcrypt';
-
-async function hashPassword(password) {
-  const saltRounds = 10;
-  return await bcrypt.hash(password, saltRounds);
+    setGeneratedCode(`
+// Secure ${selectedPattern} Implementation
+function secure${selectedPattern.replace(/\s+/g, '')}() {
+  // TODO: Implement secure ${selectedPattern.toLowerCase()} logic
+  console.log("Implementing secure ${selectedPattern.toLowerCase()}");
 }
 
-async function verifyPassword(password, hash) {
-  return await bcrypt.compare(password, hash);
-}`
-        break
-      default:
-        code = 'Please select a code type.'
-    }
-    setGeneratedCode(code)
+// Usage example
+secure${selectedPattern.replace(/\s+/g, '')}();
+    `)
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Secure Code Generation</h2>
-      <Card>
-        <CardHeader>
-          <CardTitle>Generate Secure Code Snippets</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <Select value={codeType} onValueChange={setCodeType}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select code type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="inputValidation">Input Validation</SelectItem>
-                <SelectItem value="authentication">Authentication</SelectItem>
-              </SelectContent>
-            </Select>
-            <Button onClick={handleGenerate}>Generate Secure Code</Button>
-            {generatedCode && (
-              <Textarea
-                value={generatedCode}
-                readOnly
-                rows={10}
-                className="font-mono text-sm"
-              />
-            )}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>Secure Code Generation</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          <Select onValueChange={setSelectedPattern}>
+            <SelectTrigger>
+              <SelectValue placeholder="Select a security pattern" />
+            </SelectTrigger>
+            <SelectContent>
+              {securityPatterns.map((pattern) => (
+                <SelectItem key={pattern} value={pattern}>{pattern}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button onClick={handleGenerate} disabled={!selectedPattern}>Generate Secure Code</Button>
+          {generatedCode && (
+            <pre className="bg-muted p-4 rounded-md overflow-x-auto">
+              <code>{generatedCode}</code>
+            </pre>
+          )}
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

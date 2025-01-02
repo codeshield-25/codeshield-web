@@ -2,35 +2,32 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 
 export default function PredictiveAnalysis() {
-  const predictedVulnerabilities = [
-    { name: 'SQL Injection', probability: 75 },
-    { name: 'Cross-Site Scripting (XSS)', probability: 60 },
-    { name: 'Insecure Direct Object References', probability: 45 },
-    { name: 'Security Misconfiguration', probability: 30 },
+  const predictions = [
+    { vulnerability: 'SQL Injection', probability: 75 },
+    { vulnerability: 'Cross-Site Scripting (XSS)', probability: 60 },
+    { vulnerability: 'Broken Authentication', probability: 45 },
+    { vulnerability: 'Insecure Direct Object References', probability: 30 },
   ]
 
   return (
-    <div className="space-y-4">
-      <h2 className="text-2xl font-bold">Predictive Vulnerability Analysis</h2>
-      <p className="text-muted-foreground">
-        Based on your code patterns and development practices, here are the potential vulnerabilities you might encounter:
-      </p>
-      <div className="space-y-4">
-        {predictedVulnerabilities.map((vuln, index) => (
-          <Card key={index}>
-            <CardHeader>
-              <CardTitle>{vuln.name}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center space-x-4">
-                <Progress value={vuln.probability} className="flex-grow" />
-                <span className="font-semibold">{vuln.probability}%</span>
+    <Card>
+      <CardHeader>
+        <CardTitle>Predictive Analysis</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {predictions.map((prediction, index) => (
+            <div key={index}>
+              <div className="flex justify-between mb-1">
+                <span className="text-sm font-medium">{prediction.vulnerability}</span>
+                <span className="text-sm font-medium">{prediction.probability}%</span>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
+              <Progress value={prediction.probability} className="w-full" />
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 
