@@ -31,7 +31,7 @@ export function Layout({ children, sidebar, onScan, isScanning }: LayoutProps) {
       <div className="flex-1 flex flex-col">
         {/* Header */}
         <header className="h-14 border-b px-4 flex items-center justify-between bg-card">
-          <h1 className="text-lg font-semibold">Security Scanner</h1>
+          <h1 className="text-lg font-semibold">CodeShield</h1>
           <div className="flex space-x-2">
             <Button variant="outline" size="sm" onClick={onScan} disabled={isScanning}>
               <Play className="w-4 h-4 mr-2" />

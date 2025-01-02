@@ -24,11 +24,11 @@ export function Sidebar({
     { id: 'rewrite', label: 'AI Code Rewrite', icon: Code },
     { id: 'visualization', label: 'Visualization', icon: PieChart },
     { id: 'collaboration', label: 'Collaboration', icon: Users },
-    { id: 'gamification', label: 'Gamification', icon: Trophy },
+    { id: 'pentest', label: 'Pen Testing', icon: Target },
     { id: 'nlq', label: 'Natural Language Query', icon: MessageSquare },
     { id: 'predictive', label: 'Predictive Analysis', icon: TrendingUp },
     { id: 'secure-gen', label: 'Secure Code Gen', icon: Shield },
-    { id: 'pentest', label: 'Pen Testing', icon: Target },
+    { id: 'gamification', label: 'Gamification', icon: Trophy },
     { id: 'debt', label: 'Security Debt', icon: BarChart2 },
     { id: 'settings', label: 'Settings', icon: Settings },
   ]

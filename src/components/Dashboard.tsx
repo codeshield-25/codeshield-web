@@ -89,4 +89,3 @@ export default function Dashboard({ onScan, isScanning, vulnerabilityTypes, sele
     </div>
   )
 }
-
