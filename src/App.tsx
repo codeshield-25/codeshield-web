@@ -1,28 +1,18 @@
 // import LoginPage from './components/LoginPage'
-import SecurityScannerExtension from './components/SecurityScannerExtension'
+import SecurityScannerExtension from './components/SecurityScannerExtension';
+import { AuthProvider } from './components/AuthContext';
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   return (
-    <>
-      <SecurityScannerExtension />
-      {/* < LoginPage /> */}
-    </>
-  )
+    <AuthProvider>
+      <>
+        <SecurityScannerExtension />
+        {/* <LoginPage /> */}
+        <Toaster />
+      </>
+    </AuthProvider>
+  );
 }
 
 export default App;
-
-// import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import LoginPage from "./components/LoginPage";
-// import Dashboard from "./components/Dashboard";
-
-// const App = () => (
-//   <Router>
-//     <Routes>
-//       <Route path="/" element={<LoginPage />} />
-//       <Route path="/dashboard" element={<Dashboard />} />
-//     </Routes>
-//   </Router>
-// );
-
-// export default App;

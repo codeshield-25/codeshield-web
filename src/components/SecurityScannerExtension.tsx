@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Layout } from './Layout'
 import { Sidebar } from './Sidebar'
 import Dashboard from './Dashboard'
@@ -14,16 +14,54 @@ import SecureCodeGeneration from './SecureCodeGeneration'
 import AutomatedPenetrationTesting from './AutomatedPenetrationTesting'
 import SecurityDebtTracker from './SecurityDebtTracker'
 import SettingsPanel from './SettingsPanel'
+import CreateTeam from './CreateTeam'
+import JoinTeam from './JoinTeam'
+import LoginPage from './LoginPage'
+import { useAuth } from './AuthContext'
+import { db } from './firebaseConfig'
+import { collection, query, where, onSnapshot } from 'firebase/firestore'
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 
-const projectTypes = ['.NET', 'Java', 'Eclipse', 'Android Studio', 'iOS']
+// const projectTypes = ['.NET', 'Java', 'Eclipse', 'Android Studio', 'iOS']
 const vulnerabilityTypes = ['OWASP Top 10', 'SANS Top 25', 'Business Logic', 'Emerging Threats']
 
+interface Team {
+  id: string
+  name: string
+  repository: string
+}
+
 export default function SecurityScannerExtension() {
-  const [selectedProjectType, setSelectedProjectType] = useState<string>(projectTypes[0])
+  // const [selectedProjectType, setSelectedProjectType] = useState<string>(projectTypes[0])
+  const { user } = useAuth()
+  const [teams, setTeams] = useState<Team[]>([])
+  const [selectedTeam, setSelectedTeam] = useState<string | null>(null)
   const [selectedVulnerabilities, setSelectedVulnerabilities] = useState<string[]>([])
   const [scanResults, setScanResults] = useState<any>(null)
   const [isScanning, setIsScanning] = useState(false)
   const [activePage, setActivePage] = useState('dashboard')
+  const [showJoinTeamDialog, setShowJoinTeamDialog] = useState(false)
+
+  useEffect(() => {
+    if (!user) return
+
+    const teamsRef = collection(db, 'teams')
+    const q = query(teamsRef, where('members', 'array-contains', user.uid))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const teamsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as Team[] // error in this line: Cannot find name 'Team'
+      setTeams(teamsData)
+
+      if (teamsData.length > 0 && !selectedTeam) {
+        setSelectedTeam(teamsData[0].id)
+      }
+    })
+
+    return () => unsubscribe()
+  }, [user])
 
   const handleScan = () => {
     setIsScanning(true)
@@ -40,6 +78,16 @@ export default function SecurityScannerExtension() {
       setIsScanning(false)
       setActivePage('results')
     }, 3000)
+  }
+
+  const handleTeamChange = (teamId: string) => {
+    if (teamId === 'create') {
+      setActivePage('create-team')
+    } else if (teamId === 'join') {
+      setShowJoinTeamDialog(true)
+    } else {
+      setSelectedTeam(teamId)
+    }
   }
 
   const renderActivePage = () => {
@@ -78,18 +126,26 @@ export default function SecurityScannerExtension() {
         return <SecurityDebtTracker />
       case 'settings':
         return <SettingsPanel />
+      case 'create-team':
+        return <CreateTeam />
       default:
+        // return <Dashboard onScan={handleScan} isScanning={isScanning} />
+      // default:
         return <Dashboard onScan={handleScan} isScanning={isScanning} vulnerabilityTypes={vulnerabilityTypes} selectedVulnerabilities={selectedVulnerabilities} onVulnerabilityChange={setSelectedVulnerabilities} />
     }
+  }
+
+  if (!user) {
+    return <LoginPage />
   }
 
   return (
     <Layout
       sidebar={
         <Sidebar
-          projectTypes={projectTypes}
-          selectedProjectType={selectedProjectType}
-          onProjectTypeChange={setSelectedProjectType}
+          teams={teams}
+          selectedTeam={selectedTeam}
+          onTeamChange={handleTeamChange}
           activePage={activePage}
           setActivePage={setActivePage}
         />
@@ -98,7 +154,11 @@ export default function SecurityScannerExtension() {
       isScanning={isScanning}
     >
       {renderActivePage()}
+      <Dialog open={showJoinTeamDialog} onOpenChange={setShowJoinTeamDialog}>
+        <DialogContent>
+          <JoinTeam onClose={() => setShowJoinTeamDialog(false)} />
+        </DialogContent>
+      </Dialog>
     </Layout>
   )
 }
-
