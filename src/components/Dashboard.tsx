@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Play, Shield, Target, BarChart2 } from 'lucide-react'
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
+import GitData from "./GitData"
 
 interface DashboardProps {
   onScan: () => void
@@ -10,9 +11,10 @@ interface DashboardProps {
   vulnerabilityTypes: string[]
   selectedVulnerabilities: string[]
   onVulnerabilityChange: (vulnerabilities: string[]) => void
+  initialRepoUrl: string;
 }
 
-export default function Dashboard({ onScan, isScanning, vulnerabilityTypes, selectedVulnerabilities, onVulnerabilityChange }: DashboardProps) {
+export default function Dashboard({ onScan, isScanning, vulnerabilityTypes, selectedVulnerabilities, onVulnerabilityChange, initialRepoUrl}: DashboardProps) {
   return (
     <div className="space-y-6">
       <Card>
@@ -85,6 +87,9 @@ export default function Dashboard({ onScan, isScanning, vulnerabilityTypes, sele
             <p className="text-xs text-muted-foreground">+21 from last week</p>
           </CardContent>
         </Card>
+      </div>
+      <div>
+        <GitData initialRepoUrl={initialRepoUrl}/>
       </div>
     </div>
   )

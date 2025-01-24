@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { FaGoogle } from 'react-icons/fa'
 
 export default function LoginPage() {
-  const { user, signIn } = useAuth()
+  const { user, signIn } = useAuth();
 
   useEffect(() => {
     // Smooth scroll to the login card when the page loads

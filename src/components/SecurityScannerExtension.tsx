@@ -41,6 +41,7 @@ export default function SecurityScannerExtension() {
   const [isScanning, setIsScanning] = useState(false)
   const [activePage, setActivePage] = useState('dashboard')
   const [showJoinTeamDialog, setShowJoinTeamDialog] = useState(false)
+  const [repoUrl, setRepoUrl] = useState<string>("")
 
   useEffect(() => {
     if (!user) return
@@ -86,7 +87,11 @@ export default function SecurityScannerExtension() {
     } else if (teamId === 'join') {
       setShowJoinTeamDialog(true)
     } else {
-      setSelectedTeam(teamId)
+      const selectedTeam = teams.find(team => team.id === teamId)
+      if (selectedTeam) {
+        setSelectedTeam(teamId)
+        setRepoUrl(selectedTeam.repository)
+      }
     }
   }
 
@@ -100,6 +105,7 @@ export default function SecurityScannerExtension() {
             vulnerabilityTypes={vulnerabilityTypes}
             selectedVulnerabilities={selectedVulnerabilities}
             onVulnerabilityChange={setSelectedVulnerabilities}
+            initialRepoUrl={repoUrl}
           />
         )
       case 'results':
@@ -131,7 +137,7 @@ export default function SecurityScannerExtension() {
       default:
         // return <Dashboard onScan={handleScan} isScanning={isScanning} />
       // default:
-        return <Dashboard onScan={handleScan} isScanning={isScanning} vulnerabilityTypes={vulnerabilityTypes} selectedVulnerabilities={selectedVulnerabilities} onVulnerabilityChange={setSelectedVulnerabilities} />
+        return <Dashboard onScan={handleScan} isScanning={isScanning} vulnerabilityTypes={vulnerabilityTypes} selectedVulnerabilities={selectedVulnerabilities} onVulnerabilityChange={setSelectedVulnerabilities} initialRepoUrl={repoUrl}/>
     }
   }
 
