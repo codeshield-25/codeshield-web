@@ -66,49 +66,51 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
     },
     [getOwnerAndRepo, repoUrl],
   )
-
   useEffect(() => {
-    if (!user) return
-
-    const teamsRef = collection(db, "teams")
-    const q = query(teamsRef, where("members", "array-contains", user.uid))
-
-    setLoading(true)
+    // Sync `repoUrl` with `initialRepoUrl` or team repository URL
+    if (initialRepoUrl && repoUrl !== initialRepoUrl) {
+      setRepoUrl(initialRepoUrl);
+      setRepoData([]);
+      setExpandedFolders({});
+      setFileContent(null);
+      setCurrentFilePath("");
+      fetchRepo("", initialRepoUrl); // Fetch repo only if `repoUrl` changes
+    }
+  }, [initialRepoUrl, repoUrl, fetchRepo]);
+  
+  useEffect(() => {
+    if (!user) return;
+  
+    const teamsRef = collection(db, "teams");
+    const q = query(teamsRef, where("members", "array-contains", user.uid));
+  
+    setLoading(true);
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (!querySnapshot.empty) {
-        const teamDoc = querySnapshot.docs[0]
-        const teamData = teamDoc.data()
-        const newRepoUrl = teamData.repository
-        const newTeamId = teamDoc.id
-
+        const teamDoc = querySnapshot.docs[0];
+        const teamData = teamDoc.data();
+        const newRepoUrl = teamData.repository;
+        const newTeamId = teamDoc.id;
+  
         if (newTeamId !== teamId) {
-          setTeamId(newTeamId)
-          setRepoUrl(newRepoUrl)
-          setRepoData([])
-          setExpandedFolders({})
-          setFileContent(null)
-          setCurrentFilePath("")
-          fetchRepo("", newRepoUrl)
+          setTeamId(newTeamId);
+          setRepoUrl(newRepoUrl); // Update the repository URL
+          setRepoData([]);
+          setExpandedFolders({});
+          setFileContent(null);
+          setCurrentFilePath("");
+          fetchRepo("", newRepoUrl); // Fetch repository data for the team
         }
       } else {
-        setError("No team found for the current user")
+        setError("No team found for the current user");
       }
-      setLoading(false)
-    })
+      setLoading(false);
+    });
+  
+    return () => unsubscribe();
+  }, [user, fetchRepo, teamId]);
+  
 
-    return () => unsubscribe()
-  }, [user, fetchRepo, teamId])
-
-  useEffect(() => {
-  if (initialRepoUrl !== repoUrl) {
-    setRepoUrl(initialRepoUrl); // Update repo URL
-    setRepoData([]); // Clear previous repository data
-    setExpandedFolders({}); // Reset expanded folders
-    setFileContent(null); // Clear file content
-    setCurrentFilePath(""); // Reset file path
-    fetchRepo("", initialRepoUrl); // Fetch new repo data
-  }
-}, [initialRepoUrl, fetchRepo, repoUrl]);
 
   const fetchFileContent = async (fileUrl: string, filePath: string) => {
     try {
