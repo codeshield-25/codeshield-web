@@ -9,7 +9,7 @@ interface ToastProps {
   duration?: number
 }
 
-const Toast: React.FC<ToastProps> = ({ message, type, onClose, duration = 1300 }) => {
+const Toast: React.FC<ToastProps> = ({ message, type, onClose, duration = 2000 }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose()
@@ -20,7 +20,7 @@ const Toast: React.FC<ToastProps> = ({ message, type, onClose, duration = 1300 }
 
   return (
     <div
-      className={`fixed bottom-4 right-4 p-4 rounded-md shadow-lg flex items-center space-x-2 ${
+      className={`fixed top-4 left-1/2 transform -translate-x-1/2 p-4 rounded-md shadow-lg flex items-center space-x-2 ${
         type === "success" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
       }`}
     >
