@@ -4,8 +4,11 @@ import { db } from "./firebaseConfig"
 import { collection, query, where, onSnapshot } from "firebase/firestore"
 import axios from "axios"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Spinner } from "@/components/ui/spinner"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+import Toast from "./Toast"
+import { AlertCircle, RefreshCw } from "lucide-react"
 
 interface GitDataProps {
   initialRepoUrl: string
@@ -30,6 +33,7 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
   const [loading, setLoading] = useState(true)
   const [repoLoading, setRepoLoading] = useState(false)
   const [teamId, setTeamId] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null)
   const { user } = useAuth()
 
   const getOwnerAndRepo = useCallback((url: string) => {
@@ -56,61 +60,63 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
             replaceTree(newData, path, sortedData)
             return newData
           })
+          if (path === "") {
+            setToast({ message: "Repository content fetched successfully", type: "success" })
+          }
         }
       } catch (err) {
         console.error("Error fetching repo:", err)
         setError("Failed to fetch repository contents")
+        setToast({ message: "Failed to fetch repository contents", type: "error" })
       } finally {
         setRepoLoading(false)
       }
     },
     [getOwnerAndRepo, repoUrl],
   )
+
   useEffect(() => {
-    // Sync `repoUrl` with `initialRepoUrl` or team repository URL
     if (initialRepoUrl && repoUrl !== initialRepoUrl) {
-      setRepoUrl(initialRepoUrl);
-      setRepoData([]);
-      setExpandedFolders({});
-      setFileContent(null);
-      setCurrentFilePath("");
-      fetchRepo("", initialRepoUrl); // Fetch repo only if `repoUrl` changes
+      setRepoUrl(initialRepoUrl)
+      setRepoData([])
+      setExpandedFolders({})
+      setFileContent(null)
+      setCurrentFilePath("")
+      fetchRepo("", initialRepoUrl)
     }
-  }, [initialRepoUrl, repoUrl, fetchRepo]);
-  
+  }, [initialRepoUrl, repoUrl, fetchRepo])
+
   useEffect(() => {
-    if (!user) return;
-  
-    const teamsRef = collection(db, "teams");
-    const q = query(teamsRef, where("members", "array-contains", user.uid));
-  
-    setLoading(true);
+    if (!user) return
+
+    const teamsRef = collection(db, "teams")
+    const q = query(teamsRef, where("members", "array-contains", user.uid))
+
+    setLoading(true)
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       if (!querySnapshot.empty) {
-        const teamDoc = querySnapshot.docs[0];
-        const teamData = teamDoc.data();
-        const newRepoUrl = teamData.repository;
-        const newTeamId = teamDoc.id;
-  
+        const teamDoc = querySnapshot.docs[0]
+        const teamData = teamDoc.data()
+        const newRepoUrl = teamData.repository
+        const newTeamId = teamDoc.id
+
         if (newTeamId !== teamId) {
-          setTeamId(newTeamId);
-          setRepoUrl(newRepoUrl); // Update the repository URL
-          setRepoData([]);
-          setExpandedFolders({});
-          setFileContent(null);
-          setCurrentFilePath("");
-          fetchRepo("", newRepoUrl); // Fetch repository data for the team
+          setTeamId(newTeamId)
+          setRepoUrl(newRepoUrl)
+          setRepoData([])
+          setExpandedFolders({})
+          setFileContent(null)
+          setCurrentFilePath("")
+          fetchRepo("", newRepoUrl)
         }
       } else {
-        setError("No team found for the current user");
+        setError("No team found for the current user")
       }
-      setLoading(false);
-    });
-  
-    return () => unsubscribe();
-  }, [user, fetchRepo, teamId]);
-  
+      setLoading(false)
+    })
 
+    return () => unsubscribe()
+  }, [user, fetchRepo, teamId])
 
   const fetchFileContent = async (fileUrl: string, filePath: string) => {
     try {
@@ -122,6 +128,7 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
     } catch (err) {
       console.error("Error fetching file:", err)
       setError("Failed to fetch file content")
+      setToast({ message: "Failed to fetch file content", type: "error" })
     }
   }
 
@@ -216,9 +223,10 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="flex items-center justify-center h-64">
-          <Spinner />
+      <Card className="h-[calc(100vh-4rem)]">
+        <CardContent className="flex h-full flex-col items-center justify-center gap-4 p-6">
+          <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+          <p className="text-sm text-muted-foreground">Loading repository data...</p>
         </CardContent>
       </Card>
     )
@@ -226,50 +234,67 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
 
   if (error) {
     return (
-      <Card>
-        <CardContent className="text-center text-destructive">{error}</CardContent>
+      <Card className="h-[calc(100vh-4rem)]">
+        <CardContent className="flex h-full flex-col items-center justify-center p-6">
+          <div className="text-destructive mb-4">
+            <AlertCircle className="h-12 w-12" />
+          </div>
+          <h3 className="text-lg font-semibold text-destructive mb-2">{error}</h3>
+          <p className="text-sm text-muted-foreground mb-4 text-center">
+            Please check your repository link or repository settings and try again
+          </p>
+          <Button variant="outline" onClick={() => fetchRepo("", repoUrl)}>
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Retry
+          </Button>
+        </CardContent>
       </Card>
     )
   }
 
   return (
-    <Card className="h-[calc(100vh-4rem)]">
-      <CardHeader>
-        <CardTitle className="text-lg">
-          Repository:{" "}
-          <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-            {getOwnerAndRepo(repoUrl)}
-          </a>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="h-[calc(100%-5rem)]">
-        <div className="flex gap-6 h-full">
-          <ScrollArea className="w-1/3 border rounded-lg p-4">
-            {repoLoading ? (
-              <div className="flex items-center justify-center h-full">
-                <Spinner />
-              </div>
-            ) : repoData.length > 0 ? (
-              renderTree(repoData)
-            ) : (
-              <div className="text-muted-foreground">No files to display</div>
-            )}
-          </ScrollArea>
-          <div className="w-2/3 flex flex-col">
-            {renderBreadcrumbs()}
-            <ScrollArea className="flex-grow border rounded-lg p-4 bg-muted/50">
-              {fileContent ? (
-                <pre className="whitespace-pre-wrap">
-                  <code>{fileContent}</code>
-                </pre>
+    <>
+      <Card className="h-[calc(100vh-4rem)]">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2 text-lg">
+            Repository:{" "}
+            <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              {getOwnerAndRepo(repoUrl)}
+            </a>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="h-[calc(100%-5rem)]">
+          <div className="flex gap-6 h-full">
+            <ScrollArea className="w-1/3 border rounded-lg p-4">
+              {repoLoading ? (
+                <div className="flex items-center justify-center h-full">
+                  <Spinner className="h-6 w-6" />
+                </div>
+              ) : repoData.length > 0 ? (
+                renderTree(repoData)
               ) : (
-                <div className="text-muted-foreground">Select a file to view its contents</div>
+                <div className="flex items-center justify-center h-full text-muted-foreground">No files to display</div>
               )}
             </ScrollArea>
+            <div className="w-2/3 flex flex-col">
+              {renderBreadcrumbs()}
+              <ScrollArea className="flex-grow border rounded-lg p-4 bg-muted/50">
+                {fileContent ? (
+                  <pre className="whitespace-pre-wrap">
+                    <code>{fileContent}</code>
+                  </pre>
+                ) : (
+                  <div className="flex items-center justify-center h-full text-muted-foreground">
+                    Select a file to view its contents
+                  </div>
+                )}
+              </ScrollArea>
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+      {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
+    </>
   )
 }
 

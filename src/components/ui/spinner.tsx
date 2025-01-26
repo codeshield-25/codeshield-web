@@ -1,16 +1,11 @@
 import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 
-interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export function Spinner({ className, ...props }: SpinnerProps) {
+export function Spinner({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      className={cn(
-        "animate-spin rounded-full border-4 border-t-4 border-gray-200 border-t-blue-500 h-12 w-12",
-        className,
-      )}
-      {...props}
-    />
+    <div role="status" {...props}>
+      <Loader2 className={cn("h-4 w-4 animate-spin", className)} />
+      <span className="sr-only">Loading...</span>
+    </div>
   )
 }
-

@@ -1,29 +1,28 @@
-import { useState, useEffect } from 'react'
-import { Layout } from './Layout'
-import { Sidebar } from './Sidebar'
-import Dashboard from './Dashboard'
-import ScanResults from './ScanResults'
-import AIRecommendations from './AIRecommendations'
-import AICodeRewrite from './AICodeRewrite'
-import VulnerabilityVisualization from './VulnerabilityVisualization'
-import RealTimeCollaboration from './RealTimeCollaboration'
-import SecurityGameification from './SecurityGameification'
-import NaturalLanguageQuery from './NaturalLanguageQuery'
-import PredictiveAnalysis from './PredictiveAnalysis'
-import SecureCodeGeneration from './SecureCodeGeneration'
-import AutomatedPenetrationTesting from './AutomatedPenetrationTesting'
-import SecurityDebtTracker from './SecurityDebtTracker'
-import SettingsPanel from './SettingsPanel'
-import CreateTeam from './CreateTeam'
-import JoinTeam from './JoinTeam'
-import LoginPage from './LoginPage'
-import { useAuth } from './AuthContext'
-import { db } from './firebaseConfig'
-import { collection, query, where, onSnapshot } from 'firebase/firestore'
+import { useState, useEffect } from "react"
+import { Layout } from "./Layout"
+import { Sidebar } from "./Sidebar"
+import Dashboard from "./Dashboard"
+import ScanResults from "./ScanResults"
+import AIRecommendations from "./AIRecommendations"
+import AICodeRewrite from "./AICodeRewrite"
+import VulnerabilityVisualization from "./VulnerabilityVisualization"
+import RealTimeCollaboration from "./RealTimeCollaboration"
+import SecurityGameification from "./SecurityGameification"
+import NaturalLanguageQuery from "./NaturalLanguageQuery"
+import PredictiveAnalysis from "./PredictiveAnalysis"
+import SecureCodeGeneration from "./SecureCodeGeneration"
+import AutomatedPenetrationTesting from "./AutomatedPenetrationTesting"
+import SecurityDebtTracker from "./SecurityDebtTracker"
+import SettingsPanel from "./SettingsPanel"
+import CreateTeam from "./CreateTeam"
+import JoinTeam from "./JoinTeam"
+import LoginPage from "./LoginPage"
+import { useAuth } from "./AuthContext"
+import { db } from "./firebaseConfig"
+import { collection, query, where, onSnapshot } from "firebase/firestore"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 
-// const projectTypes = ['.NET', 'Java', 'Eclipse', 'Android Studio', 'iOS']
-const vulnerabilityTypes = ['OWASP Top 10', 'SANS Top 25', 'Business Logic', 'Emerging Threats']
+const vulnerabilityTypes = ["OWASP Top 10", "SANS Top 25", "Business Logic", "Emerging Threats"]
 
 interface Team {
   id: string
@@ -32,37 +31,37 @@ interface Team {
 }
 
 export default function SecurityScannerExtension() {
-  // const [selectedProjectType, setSelectedProjectType] = useState<string>(projectTypes[0])
   const { user } = useAuth()
   const [teams, setTeams] = useState<Team[]>([])
   const [selectedTeam, setSelectedTeam] = useState<string | null>(null)
   const [selectedVulnerabilities, setSelectedVulnerabilities] = useState<string[]>([])
   const [scanResults, setScanResults] = useState<any>(null)
   const [isScanning, setIsScanning] = useState(false)
-  const [activePage, setActivePage] = useState('dashboard')
+  const [activePage, setActivePage] = useState("dashboard")
   const [showJoinTeamDialog, setShowJoinTeamDialog] = useState(false)
   const [repoUrl, setRepoUrl] = useState<string>("")
 
   useEffect(() => {
     if (!user) return
 
-    const teamsRef = collection(db, 'teams')
-    const q = query(teamsRef, where('members', 'array-contains', user.uid))
+    const teamsRef = collection(db, "teams")
+    const q = query(teamsRef, where("members", "array-contains", user.uid))
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const teamsData = querySnapshot.docs.map(doc => ({
+      const teamsData = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        ...doc.data()
-      })) as Team[] // error in this line: Cannot find name 'Team'
+        ...doc.data(),
+      })) as Team[]
       setTeams(teamsData)
 
       if (teamsData.length > 0 && !selectedTeam) {
         setSelectedTeam(teamsData[0].id)
+        setRepoUrl(teamsData[0].repository)
       }
     })
 
     return () => unsubscribe()
-  }, [user])
+  }, [user, selectedTeam])
 
   const handleScan = () => {
     setIsScanning(true)
@@ -70,24 +69,42 @@ export default function SecurityScannerExtension() {
     setTimeout(() => {
       setScanResults({
         vulnerabilities: [
-          { id: 1, type: 'OWASP Top 10', name: 'Injection', severity: 'High', location: 'src/main.js:42' },
-          { id: 2, type: 'SANS Top 25', name: 'Use of Hard-coded Credentials', severity: 'Medium', location: 'src/auth/login.js:15' },
-          { id: 3, type: 'Business Logic', name: 'Insufficient Access Control', severity: 'High', location: 'src/api/users.js:78' },
-          { id: 4, type: 'Emerging Threats', name: 'API Key Exposure', severity: 'Medium', location: 'src/config/api.js:5' },
+          { id: 1, type: "OWASP Top 10", name: "Injection", severity: "High", location: "src/main.js:42" },
+          {
+            id: 2,
+            type: "SANS Top 25",
+            name: "Use of Hard-coded Credentials",
+            severity: "Medium",
+            location: "src/auth/login.js:15",
+          },
+          {
+            id: 3,
+            type: "Business Logic",
+            name: "Insufficient Access Control",
+            severity: "High",
+            location: "src/api/users.js:78",
+          },
+          {
+            id: 4,
+            type: "Emerging Threats",
+            name: "API Key Exposure",
+            severity: "Medium",
+            location: "src/config/api.js:5",
+          },
         ],
       })
       setIsScanning(false)
-      setActivePage('results')
+      setActivePage("results")
     }, 3000)
   }
 
   const handleTeamChange = (teamId: string) => {
-    if (teamId === 'create') {
-      setActivePage('create-team')
-    } else if (teamId === 'join') {
+    if (teamId === "create") {
+      setActivePage("create-team")
+    } else if (teamId === "join") {
       setShowJoinTeamDialog(true)
     } else {
-      const selectedTeam = teams.find(team => team.id === teamId)
+      const selectedTeam = teams.find((team) => team.id === teamId)
       if (selectedTeam) {
         setSelectedTeam(teamId)
         setRepoUrl(selectedTeam.repository)
@@ -97,7 +114,7 @@ export default function SecurityScannerExtension() {
 
   const renderActivePage = () => {
     switch (activePage) {
-      case 'dashboard':
+      case "dashboard":
         return (
           <Dashboard
             onScan={handleScan}
@@ -108,36 +125,43 @@ export default function SecurityScannerExtension() {
             initialRepoUrl={repoUrl}
           />
         )
-      case 'results':
+      case "results":
         return <ScanResults results={scanResults} />
-      case 'ai':
+      case "ai":
         return <AIRecommendations results={scanResults} />
-      case 'rewrite':
+      case "rewrite":
         return <AICodeRewrite vulnerabilities={scanResults?.vulnerabilities ?? []} />
-      case 'visualization':
+      case "visualization":
         return <VulnerabilityVisualization vulnerabilities={scanResults?.vulnerabilities ?? []} />
-      case 'collaboration':
+      case "collaboration":
         return <RealTimeCollaboration />
-      case 'gamification':
+      case "gamification":
         return <SecurityGameification />
-      case 'nlq':
+      case "nlq":
         return <NaturalLanguageQuery />
-      case 'predictive':
+      case "predictive":
         return <PredictiveAnalysis />
-      case 'secure-gen':
+      case "secure-gen":
         return <SecureCodeGeneration />
-      case 'pentest':
+      case "pentest":
         return <AutomatedPenetrationTesting />
-      case 'debt':
+      case "debt":
         return <SecurityDebtTracker />
-      case 'settings':
+      case "settings":
         return <SettingsPanel />
-      case 'create-team':
-        return <CreateTeam />
+      case "create-team":
+        return <CreateTeam onClose={() => setActivePage("dashboard")} />
       default:
-        // return <Dashboard onScan={handleScan} isScanning={isScanning} />
-      // default:
-        return <Dashboard onScan={handleScan} isScanning={isScanning} vulnerabilityTypes={vulnerabilityTypes} selectedVulnerabilities={selectedVulnerabilities} onVulnerabilityChange={setSelectedVulnerabilities} initialRepoUrl={repoUrl}/>
+        return (
+          <Dashboard
+            onScan={handleScan}
+            isScanning={isScanning}
+            vulnerabilityTypes={vulnerabilityTypes}
+            selectedVulnerabilities={selectedVulnerabilities}
+            onVulnerabilityChange={setSelectedVulnerabilities}
+            initialRepoUrl={repoUrl}
+          />
+        )
     }
   }
 
@@ -156,8 +180,6 @@ export default function SecurityScannerExtension() {
           setActivePage={setActivePage}
         />
       }
-      onScan={handleScan}
-      isScanning={isScanning}
     >
       {renderActivePage()}
       <Dialog open={showJoinTeamDialog} onOpenChange={setShowJoinTeamDialog}>
@@ -168,3 +190,4 @@ export default function SecurityScannerExtension() {
     </Layout>
   )
 }
+
