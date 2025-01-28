@@ -75,3 +75,9 @@
   }
 }
 
+@layer utilities {
+  .container {
+    @apply mx-auto max-w-7xl w-full;
+  }
+}
+

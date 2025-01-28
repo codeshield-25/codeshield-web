@@ -17,6 +17,7 @@ import SettingsPanel from "./SettingsPanel"
 import CreateTeam from "./CreateTeam"
 import JoinTeam from "./JoinTeam"
 import LoginPage from "./LoginPage"
+import DonationPage from "./DonationPage"
 import { useAuth } from "./AuthContext"
 import { db } from "./firebaseConfig"
 import { collection, query, where, onSnapshot } from "firebase/firestore"
@@ -147,6 +148,8 @@ export default function SecurityScannerExtension() {
         return <AutomatedPenetrationTesting />
       case "debt":
         return <SecurityDebtTracker />
+      case "donation":
+        return <DonationPage />
       case "settings":
         return <SettingsPanel />
       case "create-team":
@@ -180,6 +183,8 @@ export default function SecurityScannerExtension() {
           setActivePage={setActivePage}
         />
       }
+      onScan={handleScan}
+      isScanning={isScanning}
     >
       {renderActivePage()}
       <Dialog open={showJoinTeamDialog} onOpenChange={setShowJoinTeamDialog}>

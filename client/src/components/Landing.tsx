@@ -5,13 +5,13 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "./AuthContext"
 import { FaGoogle } from "react-icons/fa"
-import { ArrowRight, CheckCircle2, Shield, Zap, Lock, Users2, Code2, BarChart3, ArrowDown, Youtube} from "lucide-react"
-import { VideoSection } from "./VideoSection"
+import { ArrowRight, CheckCircle2, Shield, Zap, Lock, Users2, Code2, BarChart3, ArrowDown, Youtube } from "lucide-react"
+import { VideoSection } from "../components/VideoSection"
 import SecurityScannerExtension from "./SecurityScannerExtension"
 import { FloatingAnimation } from "@/components/ui/floating-animation"
 import { ScrollFade } from "@/components/ui/scroll-fade"
 import { PatternBackground } from "@/components/ui/pattern-background"
-import { AnimatedCard } from "./Animated-card"
+import { AnimatedCard } from "../components/Animated-card"
 
 export default function Landing() {
   const { user, signIn } = useAuth()
@@ -74,9 +74,9 @@ export default function Landing() {
         <motion.header
           initial={{ y: -100 }}
           animate={{ y: 0 }}
-          className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-12"
+          className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
         >
-          <div className="container flex h-16 items-center justify-between px-4">
+          <div className="container px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between">
             <div className="flex items-center gap-8">
               <motion.a href="/" className="flex items-center gap-2 font-bold text-xl" whileHover={{ scale: 1.05 }}>
                 <Shield className="h-6 w-6" />
@@ -116,16 +116,16 @@ export default function Landing() {
         </motion.header>
 
         <main className="flex-1">
-          <section className="relative min-h-screen flex items-center">
+          <section className="relative min-h-[100vh] flex items-center overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800">
               <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
             </div>
-            <FloatingAnimation className="relative container pt-32 pb-32 text-center">
+            <FloatingAnimation className="relative w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 text-center">
               <motion.h1
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.8 }}
-                className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6"
+                className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 mx-auto max-w-[900px]"
               >
                 DEVELOP FAST.
                 <br />
@@ -146,7 +146,7 @@ export default function Landing() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
-                <Button onClick={signIn} size="lg" className="text-lg group relative overflow-hidden">
+                <Button onClick={signIn} size="lg" className="text-lg group relative overflow-hidden w-full sm:w-auto">
                   <span className="relative z-10">Get Started</span>
                   <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600"
@@ -159,19 +159,19 @@ export default function Landing() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-lg bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  className="text-lg bg-white/10 border-white/20 text-white hover:bg-white/20 w-full sm:w-auto"
                   onClick={() => scrollToSection(featuresRef)}
                 >
-                  Explore Features 
+                  Explore Features
                   <Zap className="ml-2 h-5 w-5" />
                 </Button>
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-lg bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  className="text-lg bg-white/10 border-white/20 text-white hover:bg-white/20 w-full sm:w-auto"
                   onClick={() => scrollToSection(videoSectionRef)}
                 >
-                  Demo video  
+                  Demo video
                   <Youtube className="ml-2 h-5 w-5" />
                 </Button>
               </motion.div>
@@ -191,22 +191,24 @@ export default function Landing() {
             </FloatingAnimation>
           </section>
 
-          <section ref={featuresRef} id="features" className="relative container py-24 px-12">
-            <PatternBackground />
-            <ScrollFade>
-              <div className="text-center mb-16">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                  Comprehensive Security Features
-                </h2>
-                <p className="mt-4 text-muted-foreground md:text-xl">
-                  Everything you need to secure your applications and development process
-                </p>
+          <section ref={featuresRef} id="features" className="relative w-full py-16 sm:py-24">
+            <div className="container px-4 sm:px-6 lg:px-8">
+              <PatternBackground />
+              <ScrollFade>
+                <div className="text-center mb-12 sm:mb-16">
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                    Comprehensive Security Features
+                  </h2>
+                  <p className="mt-4 text-muted-foreground md:text-xl">
+                    Everything you need to secure your applications and development process
+                  </p>
+                </div>
+              </ScrollFade>
+              <div className="grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {featureCards.map((card, i) => (
+                  <AnimatedCard key={card.title} {...card} delay={i * 0.1} />
+                ))}
               </div>
-            </ScrollFade>
-            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {featureCards.map((card, i) => (
-                <AnimatedCard key={card.title} {...card} delay={i * 0.1} />
-              ))}
             </div>
           </section>
 
@@ -216,15 +218,19 @@ export default function Landing() {
             </ScrollFade>
           </section>
 
-          <section ref={aboutRef} id="about" className="relative bg-gradient-to-b from-white to-gray-50 py-24 px-12">
-            <PatternBackground />
-            <div className="container">
+          <section
+            ref={aboutRef}
+            id="about"
+            className="relative w-full bg-gradient-to-b from-white to-gray-50 py-16 sm:py-24"
+          >
+            <div className="container px-4 sm:px-6 lg:px-8">
+              <PatternBackground />
               <ScrollFade>
-                <h2 className="text-3xl font-bold mb-8 text-center bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                <h2 className="text-3xl font-bold mb-12 sm:mb-16 text-center bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                   About CodeShield
                 </h2>
               </ScrollFade>
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
                 {[
                   {
                     title: "Comprehensive Security Scanning",
@@ -265,7 +271,7 @@ export default function Landing() {
         </main>
 
         <footer className="border-t py-8 bg-gradient-to-b from-gray-50 to-white">
-          <div className="container flex flex-col md:flex-row justify-between items-center gap-4 px-12">
+          <div className="container px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
             <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} className="text-sm text-muted-foreground">
               © 2025 CodeShield. All rights reserved.
             </motion.div>
