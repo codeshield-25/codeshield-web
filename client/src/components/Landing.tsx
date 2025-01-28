@@ -6,12 +6,12 @@ import { Button } from "@/components/ui/button"
 import { useAuth } from "./AuthContext"
 import { FaGoogle } from "react-icons/fa"
 import { ArrowRight, CheckCircle2, Shield, Zap, Lock, Users2, Code2, BarChart3, ArrowDown, Youtube} from "lucide-react"
-import { VideoSection } from "../components/VideoSection"
+import { VideoSection } from "./VideoSection"
 import SecurityScannerExtension from "./SecurityScannerExtension"
 import { FloatingAnimation } from "@/components/ui/floating-animation"
 import { ScrollFade } from "@/components/ui/scroll-fade"
 import { PatternBackground } from "@/components/ui/pattern-background"
-import { AnimatedCard } from "../components/Animated-card"
+import { AnimatedCard } from "./Animated-card"
 
 export default function Landing() {
   const { user, signIn } = useAuth()

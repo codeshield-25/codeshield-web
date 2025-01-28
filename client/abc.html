@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Injection Demo</title>
+</head>
+<body>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="abc">
+    <button>Add</button>
+    <ul>
+    </ul>
+</body>
+<script>
+    const list = document.getElementsByTagName('ul')[0]; // Access the first <ul>
+    const button = document.getElementsByTagName('button')[0]; // Access the first <button>
+    
+    button.addEventListener('click', () => {
+        const nameValue = document.getElementById('name').value;
+        const listItem = document.createElement('li'); // Create a new <li> element
+        listItem.innerHTML = nameValue; // Set innerHTML to allow raw HTML rendering
+        list.appendChild(listItem); // Append it to the <ul>
+    });
+</script>
+</html>
