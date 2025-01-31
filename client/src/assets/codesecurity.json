@@ -1,0 +1,2427 @@
+{
+  "$schema": "https://raw.githubusercontent.com/oasis-tcs/sarif-spec/master/Schemata/sarif-schema-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "SnykCode",
+          "semanticVersion": "1.0.0",
+          "version": "1.0.0",
+          "rules": [
+            {
+              "id": "javascript/DisablePoweredBy",
+              "name": "DisablePoweredBy",
+              "shortDescription": { "text": "Information Exposure" },
+              "defaultConfiguration": { "level": "warning" },
+              "help": {
+                "markdown": "## Details\n\nSensitive data includes: personally identifiable information (PII) of employees, customers, users, or other third parties; financial information; code; intellectual property; or protected network information such as passwords. Exposure of sensitive information to an unauthorized actor occurs when any party who does not require this information for business purposes can remove this information from the secure network.\nConsequences of exposure can include holding it for ransom payment, identity theft, or access to other internal network resources-along with financial loss due to regulatory fines, court settlements, or cost to restore compromised systems. As most attackers aim to extract sensitive information, this CWE only describes exploits that take advantage of vulnerabilities related to how data is handled: the management, storage, transfer, or removal of sensitive information.\n\n## Best practices for prevention\n- Encrypt data at all times, whether in transit or at rest.\n- When transporting data, always use a secure protocol such as TLS.\n- Before collecting PII or financial information, consider whether there is a true business need for this information; similarly, before storing the data, ensure that there is an ongoing business need.\n- Classify all incoming data according to privacy and security guidelines to improve awareness of sensitive data.\n- Ensure that caching is disabled for all transactions involving sensitive information.\n- Store passwords with secure, salted hashing functions.\n- Apply a network-wide least-privilege policy so sensitive data is provided only to users with business need to know.",
+                "text": ""
+              },
+              "properties": {
+                "tags": ["javascript", "DisablePoweredBy", "Security"],
+                "categories": ["Security"],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/lucasweng/yelp-camp/commit/f4e907734aea3ec98000d61f5d49c729a95cb77c?diff=split#diff-e07d531ac040ce3f40e0ce632ac2a059d7cd60f20e61f78268ac3be015b3b28fL-1",
+                    "lines": [
+                      {
+                        "line": "      app            = express(),\n",
+                        "lineNumber": 1,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      bodyParser     = require(\"body-parser\"),\n",
+                        "lineNumber": 2,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      mongoose       = require(\"mongoose\"),\n",
+                        "lineNumber": 3,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      helmet         = require(\"helmet\"),\n",
+                        "lineNumber": 4,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "      flash          = require(\"connect-flash\"),\n",
+                        "lineNumber": 5,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      session        = require(\"express-session\"),\n",
+                        "lineNumber": 6,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      moment         = require(\"moment\"),\n",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      passport       = require(\"passport\"),\n",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      LocalStrategy  = require(\"passport-local\"),\n",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      methodOverride = require(\"method-override\"),\n",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      User           = require(\"./models/user\");\n",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 12, "lineChange": "none" },
+                      {
+                        "line": "// requiring routes     \n",
+                        "lineNumber": 13,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const indexRoute      = require(\"./routes/index\"),\n",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      campgroundRoute = require(\"./routes/campgrounds\"),\n",
+                        "lineNumber": 15,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      commentRoute    = require(\"./routes/comments\"),\n",
+                        "lineNumber": 16,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      userRoute       = require(\"./routes/user\"),\n",
+                        "lineNumber": 17,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "      passwordRoute   = require(\"./routes/password\");\n",
+                        "lineNumber": 18,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 19, "lineChange": "none" },
+                      {
+                        "line": "// connect to the DB\n",
+                        "lineNumber": 20,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "let url = process.env.DATABASEURL || \"mongodb://localhost/yelp_camp_v13\"; // fallback in case global var not working\n",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "mongoose.connect(url, {useMongoClient: true});\n",
+                        "lineNumber": 22,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 23, "lineChange": "none" },
+                      {
+                        "line": "app.set(\"view engine\", \"ejs\");\n",
+                        "lineNumber": 24,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(helmet());\n",
+                        "lineNumber": 25,
+                        "lineChange": "added"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/infor-design/enterprise/commit/20888f176d6bccc41b009a54b2d47a2b29845db3?diff=split#diff-322f0482bd28fc40f84fcb0aaf208fef7fb63082d462cf02d11f46e59c531c24L-1",
+                    "lines": [
+                      {
+                        "line": "const app = express();\n",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const BASE_PATH = process.env.BASEPATH || '/';\n",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const packageJSON = getJSONFile('../../../package.json');\n",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 12, "lineChange": "none" },
+                      {
+                        "line": "app.set('view engine', 'html');\n",
+                        "lineNumber": 13,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.set('views', path.resolve(__dirname, 'views'));\n",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.set('basepath', BASE_PATH);\n",
+                        "lineNumber": 15,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.disable('x-powered-by');\n",
+                        "lineNumber": 16,
+                        "lineChange": "added"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/galtenberg/evernote-random/commit/32109271055df8a60bf4dafe289b717dbb950305?diff=split#diff-bcb729747c92e72c12e4590f736a334041a572c429756da8af60b6ab89c6be79L-1",
+                    "lines": [
+                      {
+                        "line": "const csp = require('helmet-csp')\n",
+                        "lineNumber": 5,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 6, "lineChange": "none" },
+                      {
+                        "line": "const app = express()\n",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 8, "lineChange": "none" },
+                      {
+                        "line": "app.use(morgan(':remote-addr - :remote-user [:date[clf]] \":method :url HTTP/:http-version\" :status :res[content-length] :response-time ms'));\n",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 10, "lineChange": "none" },
+                      {
+                        "line": "// parse application/x-www-form-urlencoded\n",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(bodyParser.urlencoded({ extended: false }))\n",
+                        "lineNumber": 12,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "// json parser\n",
+                        "lineNumber": 13,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(bodyParser.json())\n",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "// Serve static assets\n",
+                        "lineNumber": 15,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(express.static(path.resolve(__dirname, '..', 'build')))\n",
+                        "lineNumber": 15,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 17, "lineChange": "none" },
+                      {
+                        "line": "// Re-enable on glitch.com\n",
+                        "lineNumber": 18,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "// Always return the main index.html, so react-router render the route in the client\n",
+                        "lineNumber": 19,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "//app.get('*', (req, res) => {\n",
+                        "lineNumber": 19,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  //res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));\n",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "//})\n",
+                        "lineNumber": 22,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 23, "lineChange": "none" },
+                      {
+                        "line": "app.use(cookieSession({\n",
+                        "lineNumber": 24,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  name: 'evernoteSolitaire',\n",
+                        "lineNumber": 25,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  secret: 'evernote-sandbox-secret',\n",
+                        "lineNumber": 26,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  maxAge: 30 * 24 * 60 * 60 * 1000 // 1 month\n",
+                        "lineNumber": 27,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}))\n",
+                        "lineNumber": 28,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 29, "lineChange": "none" },
+                      {
+                        "line": "//require('./api/experiment')(app)\n",
+                        "lineNumber": 29,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "require('./api/auth')(app)\n",
+                        "lineNumber": 30,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "require('./api/notes')(app)\n",
+                        "lineNumber": 31,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 32, "lineChange": "none" },
+                      {
+                        "line": "const PORT = process.env.PORT || 8000\n",
+                        "lineNumber": 33,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "app.use(bodyParser.json({\n",
+                        "lineNumber": 33,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  type: ['json', 'application/csp-report']\n",
+                        "lineNumber": 34,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "}))\n",
+                        "lineNumber": 35,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 36, "lineChange": "added" },
+                      {
+                        "line": "app.post('/report-violation', function (req, res) {\n",
+                        "lineNumber": 37,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  if (req.body) {\n",
+                        "lineNumber": 38,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    console.log('CSP Violation: ', req.body)\n",
+                        "lineNumber": 39,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  } else {\n",
+                        "lineNumber": 40,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    console.log('CSP Violation: No data received!')\n",
+                        "lineNumber": 41,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  }\n",
+                        "lineNumber": 42,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  res.status(204).end()\n",
+                        "lineNumber": 43,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "})\n",
+                        "lineNumber": 44,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 45, "lineChange": "added" },
+                      {
+                        "line": "const PORT = 8000 //process.env.PORT || 8000\n",
+                        "lineNumber": 46,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 47, "lineChange": "added" },
+                      {
+                        "line": "app.use(csp({\n",
+                        "lineNumber": 48,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  directives: {\n",
+                        "lineNumber": 49,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    defaultSrc: [\"'self'\"],\n",
+                        "lineNumber": 50,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    scriptSrc: [\"'unsafe-inline'\"],\n",
+                        "lineNumber": 51,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    styleSrc: [\"'unsafe-inline'\"],\n",
+                        "lineNumber": 52,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    reportUri: '/report-violation',\n",
+                        "lineNumber": 53,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    upgradeInsecureRequests: true\n",
+                        "lineNumber": 54,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  },\n",
+                        "lineNumber": 55,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  reportOnly: false,\n",
+                        "lineNumber": 56,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  loose: true,\n",
+                        "lineNumber": 57,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  setAllHeaders: true,\n",
+                        "lineNumber": 58,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  browserSniff: false\n",
+                        "lineNumber": 59,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "}))\n",
+                        "lineNumber": 60,
+                        "lineChange": "added"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [],
+                "precision": "very-high",
+                "repoDatasetSize": 416,
+                "cwe": ["CWE-200"]
+              }
+            },
+            {
+              "id": "javascript/NoRateLimitingForExpensiveWebOperation",
+              "name": "NoRateLimitingForExpensiveWebOperation",
+              "shortDescription": {
+                "text": "Allocation of Resources Without Limits or Throttling"
+              },
+              "defaultConfiguration": { "level": "warning" },
+              "help": {
+                "markdown": "\n## Details\n\nWithout unlimited resources, software operating in the real world is inherently limited in the resources it may consume; similarly, servers are limited by the number of simultaneous sessions they can handle. Therefore, it is important for developers to design software that considers these real-world physical (or virtual) limitations and limits user sessions accordingly, both in terms of the number of user sessions and in the quantity of resources each user may demand. Software with this weakness does not include such limitations and as a result, individual user sessions may consume too many resources, leading to unintended software behavior including, potentially, denial of service. This can be compared to a single restaurant customer emptying out the entire buffet, leaving no food for other customers--or an entire busload mobbing the buffet all at once, with a similar effect. This may happen inadvertently or as a result of an attack by a malicious user.\n\n## Best practices for prevention\n* Test extensively to obtain baseline values indicating how the software performs in the real world under various conditions (normal and peak); use these values to determine reasonable software limits.\n* Set clear limits for all flexible parameters such as maximum allocable memory, number of processes within a given timeframe, file descriptors, requests per client, number of records per request, etc. This is particularly true for any parameters within user control.\n* Release all resources when no longer in use, including incorporating timeouts for inactive users, processes, and resources.\n* Familiarize Dev, Ops, and IT teams with best practices for recognizing and preventing DoS attacks and out-of-control resource allocation to prevent catastrophic failures.",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "NoRateLimitingForExpensiveWebOperation",
+                  "Security"
+                ],
+                "categories": ["Security"],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/natsukagami/themis-web-interface/commit/e1ef34f8b95e7eefab54c204b78fbdee70169a6d?diff=split#diff-cd0e12b228a7dea99a7346adf68cfc7a6a2c321846cc8a90fc6cd92cf8066d5eL-1",
+                    "lines": [
+                      {
+                        "line": "router.post('/', (req, res, next) => {\n",
+                        "lineNumber": 8,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "const rateLimiter = require('../controls/rate-limiter')({\n",
+                        "lineNumber": 8,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\t// Allow 3 submits, then slows down\n",
+                        "lineNumber": 9,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\tfreeRetries: 30,\n",
+                        "lineNumber": 10,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\tminWait: 2 * 60 * 60,\n",
+                        "lineNumber": 11,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\tmaxWait: 2 * 60 * 60,\n",
+                        "lineNumber": 12,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\tlifetime: 60 * 60\n",
+                        "lineNumber": 13,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "});\n",
+                        "lineNumber": 14,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 15, "lineChange": "added" },
+                      {
+                        "line": "router.post('/', rateLimiter.prevent, (req, res, next) => {\n",
+                        "lineNumber": 16,
+                        "lineChange": "added"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/Waifu-pics/waifu-api/commit/da0d3b4ee8dd4e2ab0a789dfd04cb304a537368e?diff=split#diff-0eddd48e85f4f98a238d49bfe0b4cf514b1430322bcdc196b1a97786e0ec30c8L-1",
+                    "lines": [
+                      {
+                        "line": "const rateLimit = require(\"express-rate-limit\")\n",
+                        "lineNumber": 4,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 5, "lineChange": "none" },
+                      {
+                        "line": "module.exports = ({ db, app, config, s3 }) => {\n",
+                        "lineNumber": 6,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 7, "lineChange": "added" },
+                      {
+                        "line": "    // Checking if user is Admin to prevent rate limit middleware\n",
+                        "lineNumber": 8,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    const chkAdmin = async (req, res, next) => {\n",
+                        "lineNumber": 9,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        const { token } = req.headers\n",
+                        "lineNumber": 10,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        const Admins = db.collection('admins')\n",
+                        "lineNumber": 11,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        req.chkAdmin = Boolean(req.headers.token && typeof token === \"string\" && Boolean(await Admins.findOne({token})))\n",
+                        "lineNumber": 12,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        \n",
+                        "lineNumber": 13,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        next()\n",
+                        "lineNumber": 14,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    }\n",
+                        "lineNumber": 15,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 16, "lineChange": "added" },
+                      {
+                        "line": "    // Rate limit middleware\n",
+                        "lineNumber": 17,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    const limiter = rateLimit({\n",
+                        "lineNumber": 18,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        windowMs: 10 * 60 * 1000, // 10 minutes\n",
+                        "lineNumber": 19,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        max: 15,\n",
+                        "lineNumber": 20,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        message: \"You can only upload 15 files per 10 minutes!\",\n",
+                        "lineNumber": 21,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        statusCode: 400,\n",
+                        "lineNumber": 22,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        skip: function (req) {\n",
+                        "lineNumber": 23,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "            return req.chkAdmin\n",
+                        "lineNumber": 24,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        }\n",
+                        "lineNumber": 25,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    })\n",
+                        "lineNumber": 26,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 27, "lineChange": "added" },
+                      {
+                        "line": "    // Do shit to upload\n",
+                        "lineNumber": 28,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    app.use(\"/api/upload\", chkAdmin, limiter)\n",
+                        "lineNumber": 29,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 30, "lineChange": "added" },
+                      {
+                        "line": "    app.use(fileUpload({\n",
+                        "lineNumber": 31,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        limits: { fileSize: config.maxUploadSize * 1024 * 1024 },\n",
+                        "lineNumber": 32,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        abortOnLimit: true,\n",
+                        "lineNumber": 33,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        createParentPath: true\n",
+                        "lineNumber": 34,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    }))\n",
+                        "lineNumber": 35,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 36, "lineChange": "none" },
+                      {
+                        "line": "    app.post('/api/upload', async (req, res) => {\n",
+                        "lineNumber": 37,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/davidmerfield/Blot/commit/f2bcb51b129075c8ebe5c1c23fac36dee35e800c?diff=split#diff-31b7f0d966974821a84da24ef72a8b290d5b82d34861dbdf7be2743821b2f4f5L-1",
+                    "lines": [
+                      {
+                        "line": "// stores state locally, don't use this in production\n",
+                        "lineNumber": 10,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "// var brute = require('express-brute');\n",
+                        "lineNumber": 11,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "// var store = new brute.MemoryStore();\n",
+                        "lineNumber": 12,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "// var limiter = new brute(store);\n",
+                        "lineNumber": 13,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "var client = require('client');\n",
+                        "lineNumber": 10,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "var Brute = require('express-brute');\n",
+                        "lineNumber": 11,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "var RedisStore = require('express-brute-redis');\n",
+                        "lineNumber": 12,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 13, "lineChange": "added" },
+                      {
+                        "line": "var store = new RedisStore({\n",
+                        "lineNumber": 14,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    client: client,\n",
+                        "lineNumber": 15,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    prefix: 'brute:'\n",
+                        "lineNumber": 16,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "});\n",
+                        "lineNumber": 17,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 18, "lineChange": "added" },
+                      {
+                        "line": "var limiter = new Brute(store, {\n",
+                        "lineNumber": 19,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  freeRetries: 200,\n",
+                        "lineNumber": 20,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  failCallback: onLimit,\n",
+                        "lineNumber": 21,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "});\n",
+                        "lineNumber": 22,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 23, "lineChange": "none" },
+                      {
+                        "line": "var login = Express.Router();\n",
+                        "lineNumber": 24,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "var form = login.route('/');\n",
+                        "lineNumber": 25,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 26, "lineChange": "none" },
+                      {
+                        "line": "form.all(limiter.prevent);\n",
+                        "lineNumber": 27,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 28, "lineChange": "added" },
+                      {
+                        "line": "form.get(checkToken, function(req, res){\n",
+                        "lineNumber": 29,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  res.render('log-in-email');\n",
+                        "lineNumber": 30,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "});\n",
+                        "lineNumber": 31,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 32, "lineChange": "none" },
+                      {
+                        "line": "form.post(parse, checkEmail, checkReset, checkPassword);\n",
+                        "lineNumber": 33,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 34, "lineChange": "none" },
+                      {
+                        "line": "form.all(errorHandler);\n",
+                        "lineNumber": 35,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 36, "lineChange": "none" },
+                      {
+                        "line": "function onLimit (req, res, next, until) {\n",
+                        "lineNumber": 37,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "  res.status(429).send('Log in rate limit hit. Please wait ' + moment(until).toNow(true) + ' before retrying.');\n",
+                        "lineNumber": 38,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "}\n",
+                        "lineNumber": 39,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 40, "lineChange": "added" }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [],
+                "precision": "very-high",
+                "repoDatasetSize": 27,
+                "cwe": ["CWE-770"]
+              }
+            },
+            {
+              "id": "javascript/HTTPSourceWithUncheckedType",
+              "name": "HTTPSourceWithUncheckedType",
+              "shortDescription": { "text": "Improper Type Validation" },
+              "defaultConfiguration": { "level": "note" },
+              "help": {
+                "markdown": "\n## Details\n\nWhen an object is coming from `req.body` or `req.query`, coming from the express framework. The value of this property can be controlled by the user. This could be abused by an attacker to craft the properties of the object to crash the application or bypass its logic. As such, consider checking the type of the object.\n\nIf this weakness is present, illegitimate input provided from the user's end could lead to unpredictable results such as the program crashing, unauthorized access to secure resources or command execution at the server side. In addition, if the server is overwhelmed by these types of malfunctions, it may lead to denial of service to legitimate users and tasks.\n\nExample:\n\n```\nmodule.exports = function(req, res) {\n    var data = req.query;\n      // type of value isnt checked before being used\n      data.ids = data.ids.split(',');\n      doStuff(data.ids);\n\n  };\n```\n\n\n\n## Best practices for prevention\n* Adopt a zero-trust model in which all input is considered potentially suspect.\n* Check the type of the object.\n\nExample:\n\n```\nmodule.exports = function(req, res) {\n    var data = req.query;\n    if (data.ids && typeof data.ids == 'string') {\n\n      // type of value is checked\n      data.ids = data.ids.split(',');\n      doStuff(data.ids);\n    } else {}\n  };\n```\n\n##  References\n\n* [CWE-1287: Improper Validation of Specified Type of Input](https://cwe.mitre.org/data/definitions/1287.html)\n* [JavaScript type confusion: Bypassed input validation (and how to remediate)](https://snyk.io/blog/remediate-javascript-type-confusion-bypassed-input-validation/)\n* [req.query Documentation](https://expressjs.com/en/4x/api.html#req.query)",
+                "text": ""
+              },
+              "properties": {
+                "tags": [
+                  "javascript",
+                  "HTTPSourceWithUncheckedType",
+                  "Security"
+                ],
+                "categories": ["Security"],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/seismolabs/seismo/commit/16c9ab3bf2f59abccfb3533a89146fe6ff2cf8ae?diff=split#diff-c6d1f98443b5abbcf3ae833b1d6b4e4957564815da17c30679385c72fb25177aL-1",
+                    "lines": [
+                      {
+                        "line": "function createEventId(eventName) {\n",
+                        "lineNumber": 35,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "function createEventId(event) {\n",
+                        "lineNumber": 35,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\tvar eventName;\n",
+                        "lineNumber": 36,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 37, "lineChange": "added" },
+                      {
+                        "line": "\tif (typeof event === 'object' && event.id) {\n",
+                        "lineNumber": 38,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\t\treturn event.id;\n",
+                        "lineNumber": 39,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\t}\n",
+                        "lineNumber": 40,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 41, "lineChange": "added" },
+                      {
+                        "line": "\tif (typeof event === 'string') {\n",
+                        "lineNumber": 42,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\t\teventName = event;\n",
+                        "lineNumber": 43,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\t}\n",
+                        "lineNumber": 44,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 45, "lineChange": "added" },
+                      {
+                        "line": "\tif (typeof event === 'object') {\n",
+                        "lineNumber": 46,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\t\teventName = event.name;\n",
+                        "lineNumber": 47,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "\t}\n",
+                        "lineNumber": 48,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 49, "lineChange": "added" },
+                      {
+                        "line": "\treturn eventName.toLowerCase().replace(' ', '-');\n",
+                        "lineNumber": 50,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/ovanta/vue-cloudfront-api/commit/44810f0cb26c249952fe3c62f4e4bf8b8f4c45d7?diff=split#diff-18cc9160c25d4fe4ae6fc63c84a23330e13cba7925c1f5a87fcc241827f3522dL-1",
+                    "lines": [
+                      {
+                        "line": "    // Validate\n",
+                        "lineNumber": 9,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    if (!Array.isArray(nodes) || nodes.some(v => typeof v !== 'string')) {\n",
+                        "lineNumber": 10,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "        throw 'Invalid nodes scheme';\n",
+                        "lineNumber": 11,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    }\n",
+                        "lineNumber": 12,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 13, "lineChange": "added" },
+                      {
+                        "line": "    // Find all nodes from this user and filter props\n",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    return nodeModel.find({owner: user.id, id: {$in: nodes}}).exec().then(nds => {\n",
+                        "lineNumber": 15,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 16, "lineChange": "none" },
+                      {
+                        "line": "        if (nds.length !== nodes.length) {\n",
+                        "lineNumber": 17,
+                        "lineChange": "none"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/slco-2016/clientcomm/commit/67392fdf49765c1b42a76b6cf3eb8fac4d5c22a9?diff=split#diff-71b5c44806254c0dfb01a026f47a8d55dd86ecf77f82b3419ea64a32d612a41eL-1",
+                    "lines": [
+                      {
+                        "line": "      // make sure that value is a string (might have been submitted as integer)\n",
+                        "lineNumber": 42,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "      if (typeof value !== 'string') value = String(value);\n",
+                        "lineNumber": 43,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 44, "lineChange": "added" },
+                      {
+                        "line": "      value = value.replace(/[^0-9.]/g, '');\n",
+                        "lineNumber": 45,
+                        "lineChange": "none"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [],
+                "precision": "very-high",
+                "repoDatasetSize": 72,
+                "cwe": ["CWE-1287"]
+              }
+            },
+            {
+              "id": "javascript/UseCsurfForExpress",
+              "name": "UseCsurfForExpress",
+              "shortDescription": {
+                "text": "Cross-Site Request Forgery (CSRF)"
+              },
+              "defaultConfiguration": { "level": "warning" },
+              "help": {
+                "markdown": "\n## Details\nCross-site request forgery is an attack in which a malicious third party takes advantage of a user's authenticated credentials (such as a browser cookie) to impersonate that trusted user and perform unauthorized actions. The web application server cannot tell the difference between legitimate and malicious requests. This type of attack generally begins by tricking the user with a social engineering attack, such as a link or popup that the user inadvertently clicks, causing an unauthorized request to be sent to the web server. Consequences vary: At a standard user level, attackers can change passwords, transfer funds, make purchases, or connect with contacts; from an administrator account, attackers can then make changes to or even take down the app itself.\n\n## Best practices for prevention\n* Use development frameworks that defend against CSRF, using a nonce, hash, or some other security device to the URL and/or to forms.\n* Implement secure, unique, hidden tokens that are checked by the server each time to validate state-change requests.\n* Never assume that authentication tokens and session identifiers mean a request is legitimate.\n* Understand and implement other safe-cookie techniques, such as double submit cookies.\n* Terminate user sessions when not in use, including automatic timeout.\n* Ensure rigorous coding practices and defenses against other commonly exploited CWEs, since cross-site scripting (XSS), for example, can be used to bypass defenses against CSRF.\n\n## References\n* [Snyk Learn - CSRF](https://learn.snyk.io/lesson/csrf-attack/)",
+                "text": ""
+              },
+              "properties": {
+                "tags": ["javascript", "UseCsurfForExpress", "Security"],
+                "categories": ["Security"],
+                "exampleCommitFixes": [
+                  {
+                    "commitURL": "https://github.com/ruderngespra/socialnetwork/commit/06b5f8bd68460526666b4e3af546fa5150ab15b5?diff=split#diff-e727e4bdf3657fd1d798edcd6b099d6e092f8573cba266154583a746bba0f346L-1",
+                    "lines": [
+                      {
+                        "line": "const app = express();\n",
+                        "lineNumber": 1,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const compression = require(\"compression\");\n",
+                        "lineNumber": 2,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const csurf = require(\"csurf\");\n",
+                        "lineNumber": 3,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 4, "lineChange": "none" },
+                      {
+                        "line": "app.use(require(\"body-parser\").json());\n",
+                        "lineNumber": 5,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 6, "lineChange": "none" },
+                      {
+                        "line": "app.use(\n",
+                        "lineNumber": 7,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    require(\"cookie-session\")({\n",
+                        "lineNumber": 8,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        secret: \"I am nearly always happy.\",\n",
+                        "lineNumber": 9,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        maxAge: 24 * 60 * 60 * 1000\n",
+                        "lineNumber": 10,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    })\n",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": ");\n",
+                        "lineNumber": 12,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 13, "lineChange": "none" },
+                      {
+                        "line": "app.use(csurf());\n",
+                        "lineNumber": 14,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 15, "lineChange": "added" },
+                      {
+                        "line": "app.use(function(req, res, next) {\n",
+                        "lineNumber": 16,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    res.cookie(\"mytoken\", req.csrfToken());\n",
+                        "lineNumber": 17,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    next();\n",
+                        "lineNumber": 18,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "});\n",
+                        "lineNumber": 19,
+                        "lineChange": "added"
+                      },
+                      { "line": "\n", "lineNumber": 20, "lineChange": "added" }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/bem-site/bem-forum/commit/fe91f3733daf1b0ccf726f4f9f2cfc007c9fbad7?diff=split#diff-bcb729747c92e72c12e4590f736a334041a572c429756da8af60b6ab89c6be79L-1",
+                    "lines": [
+                      {
+                        "line": "    app = express();\n",
+                        "lineNumber": 17,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 18, "lineChange": "none" },
+                      {
+                        "line": "if(util.isDev()) {\n",
+                        "lineNumber": 19,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    app.use(require('enb/lib/server/server-middleware').createMiddleware({\n",
+                        "lineNumber": 20,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        cdir: process.cwd(),\n",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "        noLog: false\n",
+                        "lineNumber": 22,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    }));\n",
+                        "lineNumber": 23,
+                        "lineChange": "none"
+                      },
+                      { "line": "}\n", "lineNumber": 24, "lineChange": "none" },
+                      { "line": "\n", "lineNumber": 25, "lineChange": "none" },
+                      {
+                        "line": "app.set('port', process.env.PORT || config.port);\n",
+                        "lineNumber": 26,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 27, "lineChange": "none" },
+                      {
+                        "line": "app\n",
+                        "lineNumber": 28,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .use(st(process.cwd()))\n",
+                        "lineNumber": 29,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .use(favicon(process.cwd() + '/public/favicon.ico'))\n",
+                        "lineNumber": 30,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "    .use(cookieParser()) //also is necessary for forum\n",
+                        "lineNumber": 31,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    .use(bodyParser()) //also is necessary for forum\n",
+                        "lineNumber": 32,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    .use(session({ secret: 'forum-session', saveUninitialized: true, resave: true }))\n",
+                        "lineNumber": 33,
+                        "lineChange": "removed"
+                      },
+                      {
+                        "line": "    .use(cookieParser())\n",
+                        "lineNumber": 31,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    .use(bodyParser())\n",
+                        "lineNumber": 32,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    .use(session({ secret: 'beminfoforum', saveUninitialized: false, resave: false }))\n",
+                        "lineNumber": 33,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "    .use(csrf())\n",
+                        "lineNumber": 34,
+                        "lineChange": "added"
+                      }
+                    ]
+                  },
+                  {
+                    "commitURL": "https://github.com/Shyam-Chen/Express-Starter/commit/9a98ac310f7a49dd97da4a4b7a53bfc74b0cc35e?diff=split#diff-c72a907ac323cd2f334ed0e2bd07d15ab62581c4753660c8a0d1c681b30be4b6L-1",
+                    "lines": [
+                      {
+                        "line": "import csurf from 'csurf';\n",
+                        "lineNumber": 10,
+                        "lineChange": "added"
+                      },
+                      {
+                        "line": "import connectRedis from 'connect-redis';\n",
+                        "lineNumber": 11,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import rendertron from 'rendertron-middleware';\n",
+                        "lineNumber": 12,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import history from 'express-history-api-fallback';\n",
+                        "lineNumber": 13,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import Raven from 'raven';\n",
+                        "lineNumber": 14,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import chalk from 'chalk';\n",
+                        "lineNumber": 15,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 16, "lineChange": "none" },
+                      {
+                        "line": "import routes from '~/core/rest';\n",
+                        "lineNumber": 17,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import apolloServer from '~/core/graphql';\n",
+                        "lineNumber": 18,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import mongoose from '~/core/mongoose';\n",
+                        "lineNumber": 19,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import sequelize from '~/core/sequelize';\n",
+                        "lineNumber": 20,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import passport from '~/core/passport';\n",
+                        "lineNumber": 21,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "import redis from '~/core/redis';\n",
+                        "lineNumber": 22,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 23, "lineChange": "none" },
+                      {
+                        "line": "import {\n",
+                        "lineNumber": 24,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  NODE_ENV, PORT, HOST, SECRET,\n",
+                        "lineNumber": 25,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  SENTRY_DSN, STATIC_FILES, RENDERTRON_URL,\n",
+                        "lineNumber": 26,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "} from './env';\n",
+                        "lineNumber": 27,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 28, "lineChange": "none" },
+                      {
+                        "line": "const app = express();\n",
+                        "lineNumber": 29,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const server = http.Server(app);\n",
+                        "lineNumber": 30,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "const io = socket(server);\n",
+                        "lineNumber": 31,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 32, "lineChange": "none" },
+                      {
+                        "line": "app.set('socket', io);\n",
+                        "lineNumber": 33,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 34, "lineChange": "none" },
+                      {
+                        "line": "if (NODE_ENV === 'production') Raven.config(SENTRY_DSN).install();\n",
+                        "lineNumber": 35,
+                        "lineChange": "none"
+                      },
+                      { "line": "\n", "lineNumber": 36, "lineChange": "none" },
+                      {
+                        "line": "/**\n",
+                        "lineNumber": 37,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": " * @name middleware-functions\n",
+                        "lineNumber": 38,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": " */\n",
+                        "lineNumber": 39,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(helmet());\n",
+                        "lineNumber": 40,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(cors());\n",
+                        "lineNumber": 41,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "// app.use(csurf());\n",
+                        "lineNumber": 42,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "// app.use(rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }));\n",
+                        "lineNumber": 43,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(compression());\n",
+                        "lineNumber": 44,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(morgan('tiny'));\n",
+                        "lineNumber": 45,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(express.json());\n",
+                        "lineNumber": 46,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(express.urlencoded({ extended: false }));\n",
+                        "lineNumber": 47,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(session({\n",
+                        "lineNumber": 48,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  store: new (connectRedis(session))({ client: redis }),\n",
+                        "lineNumber": 49,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  name: 'sid',\n",
+                        "lineNumber": 50,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  resave: true,\n",
+                        "lineNumber": 51,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  saveUninitialized: true,\n",
+                        "lineNumber": 52,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "  secret: SECRET,\n",
+                        "lineNumber": 53,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "}));\n",
+                        "lineNumber": 54,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(passport.initialize());\n",
+                        "lineNumber": 55,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(passport.session());\n",
+                        "lineNumber": 56,
+                        "lineChange": "none"
+                      },
+                      {
+                        "line": "app.use(csurf());\n",
+                        "lineNumber": 56,
+                        "lineChange": "added"
+                      }
+                    ]
+                  }
+                ],
+                "exampleCommitDescriptions": [],
+                "precision": "very-high",
+                "repoDatasetSize": 66,
+                "cwe": ["CWE-352"]
+              }
+            }
+          ]
+        }
+      },
+      "results": [
+        {
+          "ruleId": "javascript/DisablePoweredBy",
+          "ruleIndex": 0,
+          "level": "warning",
+          "message": {
+            "text": "Disable X-Powered-By header for your Express app (consider using Helmet middleware), because it exposes information about the used framework to potential attackers.",
+            "markdown": "Disable X-Powered-By header for your {0} (consider using Helmet middleware), because it exposes information about the used framework to potential attackers.",
+            "arguments": ["[Express app](0)"]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 2,
+                  "startColumn": 13,
+                  "endColumn": 20
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "b7286fc799b94d878d66f5e7b76fc75f898521db31ad4e86c203bcd66f4a4f88",
+            "1": "ae77ea27.4773f344.8b18f948.d7919eeb.a1fb1152.5fce695c.ea4b1c47.89d75565.ae77ea27.4773f344.8332d448.fa23f33c.f30fb760.49b28873.7b86ed34.943c2343"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 2,
+                            "endLine": 2,
+                            "startColumn": 13,
+                            "endColumn": 20
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 559,
+            "priorityScoreFactors": [
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/farm.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 17,
+                  "endLine": 21,
+                  "startColumn": 28,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "046da7242ef7eef42cf87202d58b47383308ea2cf46363ba65010ddb7afe0fff",
+            "1": "e0fda459.4773f344.8b18f948.c559ebce.fd1fa73f.8020cfdf.83265159.a4ea103f.0dcb03b6.4773f344.8b18f948.e7434b8a.fd1fa73f.8020cfdf.83265159.bb1d73ca"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 17,
+                            "endLine": 21,
+                            "startColumn": 28,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 20,
+                            "endLine": 20,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/farm.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 23,
+                  "endLine": 25,
+                  "startColumn": 20,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "e47b12ae2cab29a05a8cd1e7878a25165abd60459dadb0f85b958c6c29025452",
+            "1": "92e26ef2.4773f344.607187b5.c559ebce.fd1fa73f.5fce695c.83265159.89d75565.92e26ef2.4773f344.607187b5.c559ebce.fd1fa73f.5fce695c.83265159.89d75565"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 23,
+                            "endLine": 25,
+                            "startColumn": 20,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 24,
+                            "endLine": 24,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/farm.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 34,
+                  "endLine": 38,
+                  "startColumn": 31,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "78e692f09090c24516cb6e4e726fcee6f896dbf867de992fd9695e0642d2a5c6",
+            "1": "e0fda459.4773f344.8b18f948.c559ebce.fd1fa73f.8020cfdf.83265159.3357ef26.5a562d4f.4773f344.8b18f948.c559ebce.fd1fa73f.f8890b3c.83265159.3357ef26"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 34,
+                            "endLine": 38,
+                            "startColumn": 31,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 37,
+                            "endLine": 37,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/farm.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 52,
+                  "endLine": 56,
+                  "startColumn": 36,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "37fa3499f40d55dd9205a94e2f81cafa797d813f9f54434f9756fed570ba8bfd",
+            "1": "8f2b62b8.4773f344.8b18f948.c559ebce.fd1fa73f.c2f4270e.83265159.3357ef26.5a562d4f.4773f344.8b18f948.c559ebce.a320e716.f8890b3c.83265159.3357ef26"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 52,
+                            "endLine": 56,
+                            "startColumn": 36,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 55,
+                            "endLine": 55,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/farm.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 58,
+                  "endLine": 62,
+                  "startColumn": 43,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "bdca8cbc32ccb5b31efd71ea2ef16e9b7f4437bf4068c8f8d2d7c9238c1acd3a",
+            "1": "e0fda459.4773f344.8b18f948.c559ebce.1f4b402f.8020cfdf.83265159.5d97e4c5.5a562d4f.4773f344.8b18f948.c559ebce.1f4b402f.f8890b3c.83265159.5d97e4c5"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 58,
+                            "endLine": 62,
+                            "startColumn": 43,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/farm.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 61,
+                            "endLine": 61,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/product.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 17,
+                  "endLine": 26,
+                  "startColumn": 17,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "4cd60203758981fd5de7567932420376d01f3010b70959beb73646d30e264f10",
+            "1": "92e26ef2.4773f344.8b18f948.c559ebce.fd1fa73f.5fce695c.83265159.89d75565.ace51c77.4773f344.8b18f948.c559ebce.12ae9cdc.5fce695c.83265159.89d75565"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 17,
+                            "endLine": 26,
+                            "startColumn": 17,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 21,
+                            "endLine": 21,
+                            "startColumn": 13,
+                            "endColumn": 19
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/product.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 28,
+                  "endLine": 33,
+                  "startColumn": 31,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "ed790f48035b19c74b53a58b2f86fdfe50844b878c2571815090a4111cad299d",
+            "1": "e0fda459.4773f344.8b18f948.c559ebce.fd1fa73f.0920e548.83265159.3357ef26.0dcb03b6.4773f344.8b18f948.c559ebce.fd1fa73f.0920e548.83265159.3357ef26"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 28,
+                            "endLine": 33,
+                            "startColumn": 31,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 32,
+                            "endLine": 32,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/product.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 45,
+                  "endLine": 51,
+                  "startColumn": 31,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "403ce871a4c2808b3ce2629a30e1980fa481979bf3fa0ddc0bf1894bccf6a9aa",
+            "1": "e0fda459.4773f344.8b18f948.c559ebce.fd1fa73f.8020cfdf.83265159.a4ea103f.5a562d4f.4773f344.8b18f948.c559ebce.fd1fa73f.f8890b3c.83265159.870b3dbe"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 45,
+                            "endLine": 51,
+                            "startColumn": 31,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 50,
+                            "endLine": 50,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/NoRateLimitingForExpensiveWebOperation",
+          "ruleIndex": 1,
+          "level": "warning",
+          "message": {
+            "text": "This endpoint handler performs a file system operation and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "markdown": "This {0} performs {1} and does not use a rate-limiting mechanism. It may enable the attackers to perform Denial-of-service attacks. Consider using a rate-limiting middleware such as express-limit.",
+            "arguments": [
+              "[endpoint handler](0)",
+              "[a file system operation](1)"
+            ]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/product.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 65,
+                  "endLine": 69,
+                  "startColumn": 25,
+                  "endColumn": 2
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "673a3b63f97d07befb7e68e23aa32ac1130e6e0316175a68133606fdb2c94bc7",
+            "1": "92e26ef2.4773f344.8b18f948.c559ebce.fd1fa73f.5fce695c.83265159.89d75565.5a562d4f.4773f344.8b18f948.c559ebce.fd1fa73f.5fce695c.83265159.89d75565"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 65,
+                            "endLine": 69,
+                            "startColumn": 25,
+                            "endColumn": 2
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 68,
+                            "endLine": 68,
+                            "startColumn": 9,
+                            "endColumn": 15
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 625,
+            "priorityScoreFactors": [
+              { "label": true, "type": "multipleOccurrence" },
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/HTTPSourceWithUncheckedType",
+          "ruleIndex": 2,
+          "level": "note",
+          "message": {
+            "text": "The type of this object, coming from body and the value of its push property can be controlled by the user. An attacker may craft the properties of the object to crash the application or bypass its logic. Consider checking the type of the object.",
+            "markdown": "The type of this {0}, coming from {1} and the value of its {2} property can be controlled by the user. An attacker may craft the properties of the object to crash the application or bypass its logic. Consider checking the type of the object.",
+            "arguments": ["[object](0)", "[body](1)", "[push](2)"]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "routes/product.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 39,
+                  "endLine": 39,
+                  "startColumn": 19,
+                  "endColumn": 23
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "48862b1a18df365a9edf06f91fb8974e74fcae77c714cef02bdedefd8982f77c",
+            "1": "9fc9bb7a.4773f344.607187b5.efc4b632.ef9f7d82.8020cfdf.3e0616cf.28062c7e.f759b1f9.0e36c36d.a3fa85e7.08906714.8d22f254.1ec71ef1.3e0616cf.6723ddeb"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 39,
+                            "endLine": 39,
+                            "startColumn": 5,
+                            "endColumn": 18
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 1,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 35,
+                            "endLine": 35,
+                            "startColumn": 24,
+                            "endColumn": 28
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "location": {
+                        "id": 2,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "routes/product.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 39,
+                            "endLine": 39,
+                            "startColumn": 19,
+                            "endColumn": 23
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 409,
+            "priorityScoreFactors": [
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        },
+        {
+          "ruleId": "javascript/UseCsurfForExpress",
+          "ruleIndex": 3,
+          "level": "warning",
+          "message": {
+            "text": "CSRF protection is disabled for your Express app. This allows the attackers to execute requests on a user's behalf.",
+            "markdown": "CSRF protection is disabled for your {0}. This allows the attackers to execute requests on a user's behalf.",
+            "arguments": ["[Express app](0)"]
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "index.js",
+                  "uriBaseId": "%SRCROOT%"
+                },
+                "region": {
+                  "startLine": 2,
+                  "endLine": 2,
+                  "startColumn": 13,
+                  "endColumn": 20
+                }
+              }
+            }
+          ],
+          "fingerprints": {
+            "0": "0ee1072e5bc817aecd07570fdaaf0ca8c641821f35de382bcca46bea5e687cd3",
+            "1": "ae77ea27.4773f344.8b18f948.d7919eeb.a1fb1152.5fce695c.ea4b1c47.89d75565.ae77ea27.4773f344.8332d448.fa23f33c.f30fb760.49b28873.7b86ed34.943c2343"
+          },
+          "codeFlows": [
+            {
+              "threadFlows": [
+                {
+                  "locations": [
+                    {
+                      "location": {
+                        "id": 0,
+                        "physicalLocation": {
+                          "artifactLocation": {
+                            "uri": "index.js",
+                            "uriBaseId": "%SRCROOT%"
+                          },
+                          "region": {
+                            "startLine": 2,
+                            "endLine": 2,
+                            "startColumn": 13,
+                            "endColumn": 20
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "priorityScore": 559,
+            "priorityScoreFactors": [
+              { "label": true, "type": "hotFileSource" },
+              { "label": true, "type": "fixExamples" }
+            ],
+            "isAutofixable": true
+          }
+        }
+      ],
+      "properties": {
+        "coverage": [
+          {
+            "isSupported": true,
+            "lang": "JavaScript",
+            "files": 7,
+            "type": "SUPPORTED"
+          },
+          {
+            "isSupported": true,
+            "lang": "EJS",
+            "files": 11,
+            "type": "SUPPORTED"
+          }
+        ]
+      }
+    }
+  ]
+}

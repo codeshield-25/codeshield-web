@@ -12,13 +12,22 @@ app.use(express.json());
 
 // Endpoint to scan a GitHub repository
 app.post('/scan', (req, res) => {
-    const { repoUrl } = req.body;
+    const { repoUrl,scanType } = req.body;
     console.log('Received request to scan repository:', repoUrl);
 
     if (!repoUrl || !repoUrl.startsWith('https://github.com/')) {
         return res.status(400).json({ error: 'Invalid or missing GitHub repository URL.' });
     }
+    const scanCommands = {
+        open_source: 'snyk test',               // Open source security
+        code_security: 'snyk code test',       // Code security
+        configuration: 'snyk iac test',        // Configuration issues
+        code_quality: 'snyk code test --severity-threshold=low', // Code quality (low severity included)
+    };
 
+    if (!scanCommands[scanType]) {
+        return res.status(400).json({ error: 'Invalid or missing scan type. Supported types: open_source, code_security, configuration, code_quality.' });
+    }
     // Extract the repository name from the URL
     const repoName = repoUrl.split('/').pop().replace(/\.git$/, ''); // Get only the repository name
     const repoPath = path.join(__dirname, 'repos', repoName); // Construct the correct path
@@ -46,7 +55,7 @@ app.post('/scan', (req, res) => {
 
     const runSnykScan = () => {
         return new Promise((resolve, reject) => {
-            const snykCommand = `snyk code test --json ${repoPath}`;
+            const snykCommand = `${scanCommands[scanType]} --json ${repoPath}`;
             console.log(`Executing: ${snykCommand}`);
             
             exec(
