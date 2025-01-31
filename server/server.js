@@ -139,6 +139,7 @@ async function main(prompt) {
     return stream.choices[0].message.content;
 }
 
+//AI rewrite 
 app.get('/ai',async (req,res) => {
 
     const message = req.body;
@@ -147,6 +148,15 @@ app.get('/ai',async (req,res) => {
     res.send(data);
 
 })
+
+//Natural Language query
+app.get('/query',async(req,res)=>{
+    const query = req.body;
+    const data=await main(query);
+
+    res.send(data);
+}
+)
 
 // Start the server
 const PORT = 3000;
