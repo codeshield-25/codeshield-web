@@ -5,7 +5,7 @@ import Dashboard from "./Dashboard"
 import ScanResults from "./ScanResults"
 import AIRecommendations from "./AIRecommendations"
 import AICodeRewrite from "./AICodeRewrite"
-import VulnerabilityVisualization from "./VulnerabilityVisualization"
+import SecurityVisualizationDashboard from "./SecurityVisualizationDashboard"
 import RealTimeCollaboration from "./RealTimeCollaboration"
 import SecurityGameification from "./SecurityGameification"
 import NaturalLanguageQuery from "./NaturalLanguageQuery"
@@ -130,16 +130,30 @@ export default function SecurityScannerExtension() {
           />
         )
       case "results":
-        // return <ScanResults results={scanResults} />
-        return <ScanResults openSourceData={openSourceData} codeSecurityData={codeSecurityData} configData={configData} />
+        return (
+          <ScanResults openSourceData={openSourceData} codeSecurityData={codeSecurityData} configData={configData} />
+        )
       case "ai":
-        return <AIRecommendations results={scanResults} />
+        return <AIRecommendations results={scanResults} vulnerabilities={scanResults?.vulnerabilities ?? []} />
       case "rewrite":
         return <AICodeRewrite vulnerabilities={scanResults?.vulnerabilities ?? []} />
       case "visualization":
-        return <VulnerabilityVisualization vulnerabilities={scanResults?.vulnerabilities ?? []} />
+        return (
+          <SecurityVisualizationDashboard
+            openSourceData={openSourceData}
+            codeSecurityData={codeSecurityData}
+            configData={configData}
+          />
+        )
       case "collaboration":
-        return <RealTimeCollaboration />
+        return selectedTeam ? (
+          <RealTimeCollaboration
+            teamId={selectedTeam}
+            teamName={teams.find((team) => team.id === selectedTeam)?.name || "Team"}
+          />
+        ) : (
+          <div>Please select a team to use the collaboration feature.</div>
+        )
       case "gamification":
         return <SecurityGameification />
       case "nlq":

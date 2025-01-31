@@ -1,12 +1,63 @@
+import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Lightbulb, Code, ExternalLink } from 'lucide-react'
+interface Vulnerability {
+  id: number
+  type: string
+  name: string
+  severity: 'Low' | 'Medium' | 'High'
+  location: string
+}
 
 interface AIRecommendationsProps {
   results: any
+  vulnerabilities: Vulnerability[]
 }
 
-export default function AIRecommendations({ results }: AIRecommendationsProps) {
+export default function AIRecommendations({ results, vulnerabilities }: AIRecommendationsProps) {
+
+  //From AICodeRewrite.tsx
+  const [selectedVulnerability, setSelectedVulnerability] = useState<Vulnerability | null>(
+    vulnerabilities.length > 0 ? vulnerabilities[0] : null
+  )
+  const [originalCode, setOriginalCode] = useState('')
+  const [rewrittenCode, setRewrittenCode] = useState('')
+  const [isRewriting, setIsRewriting] = useState(false)
+  const [activeTab, setActiveTab] = useState('original')
+
+  const handleRewrite = () => {
+    if (!selectedVulnerability) return
+
+    setIsRewriting(true)
+    // Simulating AI code rewrite process
+    setTimeout(() => {
+      setRewrittenCode(`
+  // Rewritten code to fix ${selectedVulnerability.name}
+  function secureFunction(userInput) {
+    // Sanitize input
+    const sanitizedInput = sanitizeInput(userInput);
+    
+    // Use parameterized query
+    const query = 'SELECT * FROM users WHERE username = ?';
+    const result = db.execute(query, [sanitizedInput]);
+    
+    return result;
+  }
+  
+  function sanitizeInput(input) {
+    // Implement input sanitization logic
+    return input.replace(/[^\w\s]/gi, '');
+  }
+        `)
+      setIsRewriting(false)
+      setActiveTab('rewritten') // Switch to the rewritten code tab
+    }, 2000)
+  }
+
+
+
+
   const recommendations = [
     {
       id: 1,
@@ -35,9 +86,61 @@ stmt.setString(1, username);
       </CardHeader>
       <CardContent>
         {!results ? (
-          <div className="text-center py-8">No scan results available. Start a scan to see AI recommendations.</div>
+          <div>
+             <Card>
+              <CardHeader>
+                <CardTitle>Select Vulnerability to Rewrite</CardTitle>
+                <CardDescription>Choose a detected vulnerability to see AI-suggested code rewrites.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {vulnerabilities.length > 0 && (
+                  <select
+                    className="w-full p-2 border rounded"
+                    value={selectedVulnerability?.id || ''}
+                    onChange={(e) => {
+                      const selected = vulnerabilities.find(v => v.id === parseInt(e.target.value));
+                      setSelectedVulnerability(selected || null);
+                    }}
+                  >
+                    {vulnerabilities.map((vuln) => (
+                      <option key={vuln.id} value={vuln.id}>
+                        {vuln.name} - {vuln.severity} ({vuln.location})
+                      </option>
+                    ))}
+                  </select>
+                )}
+              </CardContent>
+            </Card>
+            <div className="text-center py-8">No scan results available. Start a scan to see AI recommendations.</div>
+          </div>
         ) : (
           <div className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Select Vulnerability to show recommendations</CardTitle>
+                <CardDescription>Choose a detected vulnerability to see AI-suggested code recommendations.</CardDescription>
+              </CardHeader>
+              <CardContent>
+                {vulnerabilities.length > 0 ? (
+                  <select
+                    className="w-full p-2 border rounded"
+                    value={selectedVulnerability?.id || ''}
+                    onChange={(e) => {
+                      const selected = vulnerabilities.find(v => v.id === parseInt(e.target.value));
+                      setSelectedVulnerability(selected || null);
+                    }}
+                  >
+                    {vulnerabilities.map((vuln) => (
+                      <option key={vuln.id} value={vuln.id}>
+                        {vuln.name} - {vuln.severity} ({vuln.location})
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p>No vulnerabilities detected.</p>
+                )}
+              </CardContent>
+            </Card>
             {recommendations.map((rec) => (
               <Card key={rec.id}>
                 <CardHeader>

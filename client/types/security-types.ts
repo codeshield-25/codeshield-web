@@ -1,15 +1,16 @@
 export interface Vulnerability {
+  id : String
   title: string
   exploit: string
   severity: string
-  cvssScore: string
+  cvssScore: number
   CVSSv3: string
   moduleName: string
   references: { url: string; title: string }[]
   description: string
   identifiers: { CVE?: string[]; CWE?: string[]; GHSA?: string[] }
   from: string[]
-  upgradePath: (string | false)[];
+  upgradePath: (string | boolean)[];
 }
 
 export interface OpenSourceSecurity {

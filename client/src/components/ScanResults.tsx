@@ -167,9 +167,9 @@ export default function SecurityScanner({ openSourceData, codeSecurityData, conf
                   </CardHeader>
                   <CardContent>
                     <ScrollArea className="h-[400px] pr-4">
-                      {openSourceData.vulnerabilities.map((vuln) => (
+                      {openSourceData.vulnerabilities.map((vuln,index) => (
                         <VulnerabilityItem
-                          key={vuln.id}
+                          key={index}
                           vulnerability={vuln}
                           isSelected={selectedVulnerability?.id === vuln.id}
                           onClick={() => setSelectedVulnerability(vuln)}
