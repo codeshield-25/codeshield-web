@@ -1,16 +1,19 @@
 export interface Vulnerability {
-  id : String
+  id: string
   title: string
   exploit: string
+  fixedIn: string[]
   severity: string
+  cvssScore: number
   cvssScore: number
   CVSSv3: string
   moduleName: string
+  version: string
   references: { url: string; title: string }[]
   description: string
   identifiers: { CVE?: string[]; CWE?: string[]; GHSA?: string[] }
   from: string[]
-  upgradePath: (string | boolean)[];
+  upgradePath: (string | boolean)[]
 }
 
 export interface OpenSourceSecurity {
@@ -19,12 +22,30 @@ export interface OpenSourceSecurity {
   uniqueCount: number
 }
 
-export interface CodeSecurityResult {
+export interface Rule {
+  id: string;
+  shortDescription: { text: string };
+  defaultConfiguration: { level: string };
+  help: { markdown: string };
+  properties: { 
+    exampleCommitFixes: Array<{
+      commitURL: string;
+      lines: Array<{
+        line: string;
+        lineNumber: number;
+        lineChange: string;
+      }>;
+    }>;
+    repoDatasetSize: number;
+    cwe: string[]
+  };
+}
+
+export interface Result {
   ruleId: string
+  ruleIndex: number
   level: string
-  message: {
-    text: string
-  }
+  message: { text: string }
   locations: Array<{
     physicalLocation: {
       artifactLocation: {
@@ -32,15 +53,22 @@ export interface CodeSecurityResult {
       }
       region: {
         startLine: number
-        endLine: number
       }
     }
   }>
+  properties: {
+    priorityScore: number
+  }
 }
 
 export interface CodeSecurity {
   runs: Array<{
-    results: CodeSecurityResult[]
+    tool: {
+      driver: {
+        rules: Rule[]
+      }
+    }
+    results: Result[]
   }>
 }
 
