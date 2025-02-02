@@ -241,7 +241,7 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
           </div>
           <h3 className="text-lg font-semibold text-destructive mb-2">{error}</h3>
           <p className="text-sm text-muted-foreground mb-4 text-center">
-            Please check your repository link or repository settings and try again
+            Please check your repository link or internet connection and try again
           </p>
           <Button variant="outline" onClick={() => fetchRepo("", repoUrl)}>
             <RefreshCw className="mr-2 h-4 w-4" />

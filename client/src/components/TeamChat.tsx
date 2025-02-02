@@ -56,7 +56,7 @@ export default function TeamChat({ teamId, teamName }: TeamChatProps) {
   }, [])
 
   return (
-    <div className="flex flex-col h-[calc(100vh-2rem)] w-full max-w-5xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="flex flex-col h-[calc(100vh-6rem)] w-full max-w-5xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
       {/* Header */}
       <header className="h-14 flex items-center px-4 border-b bg-white">
         <Hash className="w-5 h-5 text-gray-500 mr-2" />
@@ -65,7 +65,7 @@ export default function TeamChat({ teamId, teamName }: TeamChatProps) {
 
       {/* Messages */}
       <div ref={scrollRef} onScroll={handleScroll} className="flex-1 overflow-y-auto bg-gray-50">
-        <div className="flex flex-col py-4 px-4 space-y-4">
+        <div className="flex flex-col py-4 px-2 space-y-4">
           {messages.map((msg, index) => {
             const isCurrentUser = msg.userId === user?.uid
             const showAvatar = !index || messages[index - 1].userId !== msg.userId
@@ -74,7 +74,7 @@ export default function TeamChat({ teamId, teamName }: TeamChatProps) {
               <div
                 key={msg.id}
                 className={cn(
-                  "flex items-start space-x-4",
+                  "flex items-start space-x-2",
                   !showAvatar && "mt-1",
                   isCurrentUser && "flex-row-reverse space-x-reverse",
                 )}
@@ -131,7 +131,7 @@ export default function TeamChat({ teamId, teamName }: TeamChatProps) {
                   ) : (
                     <div
                       className={cn(
-                        "px-4 py-2 rounded-2xl text-sm shadow-lg whitespace-pre-wrap",
+                        "pr-0 pl-4 py-2 rounded-2xl text-sm shadow-lg whitespace-pre-wrap",
                         isCurrentUser ? "bg-blue-500 text-white" : "bg-white text-gray-900",
                       )}
                     >
@@ -149,7 +149,7 @@ export default function TeamChat({ teamId, teamName }: TeamChatProps) {
       {showScrollButton && (
         <Button
           onClick={() => scrollToBottom()}
-          className=" absolute bottom-20 right-40 rounded-full bg-white shadow-lg hover:bg-gray-50"
+          className=" absolute bottom-40 right-40 rounded-full bg-white shadow-lg hover:bg-gray-50"
           size="icon"
         >
           <ChevronDown className="w-4 h-4 text-black" />
