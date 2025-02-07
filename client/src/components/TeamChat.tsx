@@ -131,7 +131,7 @@ export default function TeamChat({ teamId, teamName }: TeamChatProps) {
                   ) : (
                     <div
                       className={cn(
-                        "pr-0 pl-4 py-2 rounded-2xl text-sm shadow-lg whitespace-pre-wrap",
+                        "pr-4 pl-4 py-2 rounded-2xl text-sm shadow-lg whitespace-pre-wrap",
                         isCurrentUser ? "bg-blue-500 text-white" : "bg-white text-gray-900",
                       )}
                     >

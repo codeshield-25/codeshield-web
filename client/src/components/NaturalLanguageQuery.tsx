@@ -202,7 +202,7 @@ export default function NaturalLanguageQueryChat() {
   }
 
   return (
-    <Card className="w-full max-w-3xl mx-auto h-[600px] flex flex-col bg-white">
+    <Card className="w-full mx-auto h-[600px] flex flex-col bg-white">
       <CardHeader className="border-b">
         <CardTitle className="text-2xl font-bold text-center flex items-center justify-center">
           <ShieldCheck className="mr-2 text-emerald-500" /> Security Query Interface

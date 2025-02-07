@@ -5,7 +5,6 @@ export interface Vulnerability {
   fixedIn: string[]
   severity: string
   cvssScore: number
-  cvssScore: number
   CVSSv3: string
   moduleName: string
   version: string
@@ -76,4 +75,17 @@ export interface ConfigSecurity {
   ok: boolean
   code: number
   error?: string
+}
+
+export interface TeamStats {
+  avgHighVulCnt: number;
+  avgMidVulCnt: number;
+  avgLowVulCnt: number;
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  repository: string;
+  teamStats: TeamStats;
 }

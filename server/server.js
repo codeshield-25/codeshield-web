@@ -35,6 +35,7 @@ app.post('/scan', (req, res) => {
     if (!repoUrl || !repoUrl.startsWith('https://github.com/')) {
         return res.status(400).json({ error: 'Invalid or missing GitHub repository URL.' });
     }
+
     const scanCommands = {
         open_source: 'snyk test',               // Open source security
         code_security: 'snyk code test',       // Code security

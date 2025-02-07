@@ -15,9 +15,9 @@ interface CodeSecurityDetailsProps {
 
 const getSeverityIcon = (severity: string) => {
   switch (severity.toLowerCase()) {
-    case "high":
+    case "error":
       return <AlertCircle className="h-5 w-5" />
-    case "medium":
+    case "warning":
       return <AlertTriangle className="h-5 w-5" />
     default:
       return <Info className="h-5 w-5" />
@@ -26,9 +26,9 @@ const getSeverityIcon = (severity: string) => {
 
 const getSeverityColor = (severity: string) => {
   switch (severity.toLowerCase()) {
-    case "high":
+    case "error":
       return "text-red-500 bg-red-500/10"
-    case "medium":
+    case "warning":
       return "text-yellow-500 bg-yellow-500/10"
     default:
       return "text-blue-500 bg-blue-500/10"

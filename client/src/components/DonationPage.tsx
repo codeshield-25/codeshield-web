@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -10,22 +10,23 @@ import { Shield, Heart, DollarSign } from 'lucide-react'
 const totalDonations = 15780
 const donationGoal = 20000
 const newDonators = [
-  { name: 'Alice Johnson', amount: 50 },
-  { name: 'Bob Smith', amount: 100 },
-  { name: 'Charlie Brown', amount: 25 },
-]
+  { name: 'Aarav Mehta', amount: 50 },
+  { name: 'Priya Sharma', amount: 100 },
+  { name: 'Rohan Iyer', amount: 25 },
+];
+
 const pastDonations = [
-  { name: 'David Lee', amount: 200, date: '2023-12-01' },
-  { name: 'Eva Garcia', amount: 75, date: '2023-11-28' },
-  { name: 'Frank Wilson', amount: 150, date: '2023-11-25' },
-]
+  { name: 'Neha Verma', amount: 200, date: '2023-12-01' },
+  { name: 'Vikram Das', amount: 75, date: '2023-11-28' },
+  { name: 'Sanya Kapoor', amount: 150, date: '2023-11-25' },
+];
 
 export default function DonationPage() {
   const [donationAmount, setDonationAmount] = useState('')
 
   const handleDonate = () => {
     // Implement donation logic here
-    console.log(`Donating $${donationAmount}`)
+    console.log(`Donating ₹${donationAmount}`)
     // Reset donation amount
     setDonationAmount('')
   }
@@ -51,7 +52,7 @@ export default function DonationPage() {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span>Total Donations</span>
-                <span>${totalDonations.toLocaleString()} / ${donationGoal.toLocaleString()}</span>
+                <span>₹{totalDonations.toLocaleString()} / ₹{donationGoal.toLocaleString()}</span>
               </div>
               <Progress value={(totalDonations / donationGoal) * 100} />
             </div>
@@ -86,7 +87,7 @@ export default function DonationPage() {
                       </Avatar>
                       <span>{donator.name}</span>
                     </div>
-                    <span className="font-semibold">${donator.amount}</span>
+                    <span className="font-semibold">₹{donator.amount}</span>
                   </li>
                 ))}
               </ul>
@@ -102,11 +103,14 @@ export default function DonationPage() {
               <ul className="space-y-4">
                 {pastDonations.map((donation, index) => (
                   <li key={index} className="flex items-center justify-between">
-                    <div>
-                      <div>{donation.name}</div>
+                    <div className="flex items-center">
+                      <Avatar className="mr-2">
+                        <AvatarFallback>{donation.name[0]}</AvatarFallback>
+                      </Avatar>
+                      <span className='mr-2'>{donation.name}</span>
                       <div className="text-sm text-muted-foreground">{donation.date}</div>
                     </div>
-                    <span className="font-semibold">${donation.amount}</span>
+                    <span className="font-semibold">₹{donation.amount}</span>
                   </li>
                 ))}
               </ul>

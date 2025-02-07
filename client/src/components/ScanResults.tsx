@@ -1,17 +1,14 @@
-"use client"
-
 import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { AlertCircle, AlertTriangle, CheckCircle2, Shield, FileCode, Cog } from "lucide-react"
+import { AlertCircle, CheckCircle2, Shield, FileCode, Cog, ScanLine } from "lucide-react"
 import type {
   OpenSourceSecurity,
   CodeSecurity,
   ConfigSecurity,
-  Vulnerability,
-  Rule,
   Result
 } from "../../types/security-types"
 import { StatCard } from "./stat-card"
@@ -24,10 +21,59 @@ interface SecurityScannerProps {
   openSourceData: OpenSourceSecurity
   codeSecurityData: CodeSecurity
   configData: ConfigSecurity
+  handleScan: () => void
+  isScanning: boolean 
 }
 
-export default function SecurityScanner({ openSourceData, codeSecurityData, configData }: SecurityScannerProps) {
+export default function SecurityScanner({ openSourceData, codeSecurityData, configData, handleScan, isScanning }: SecurityScannerProps) {
   const [selectedCodeIssue, setSelectedCodeIssue] = useState<Result | null>(null)
+  const [selectedVulnerabilityIdx, setSelectedVulnerabilityIdx] = useState<number | null>(null)
+
+  // Check if data is available
+  const hasData = openSourceData && codeSecurityData && configData
+
+  if (!hasData) {
+    return (
+      // <div className="container mx-auto flex justify-center">
+      //   <Card className="w-full p-4">
+      //     <CardHeader>
+      //       <CardTitle className="text-center">No Scan Results</CardTitle>
+      //     </CardHeader>
+      //     <CardContent className="flex flex-col items-center text-center">
+      //       <ScanLine className="h-16 w-16 text-primary mb-4 animate-pulse" />
+      //       <p className="text-muted-foreground mb-4">Start a new scan to view security insights for your project.</p>
+      //       <Button 
+      //         className="px-6" 
+      //         onClick={handleScan} 
+      //         disabled={isScanning}
+      //       >
+      //         {isScanning ? 'Scanning...' : 'Start Scan'}
+      //       </Button>
+      //     </CardContent>
+      //   </Card>
+      // </div>
+      <Card>
+      <CardHeader>
+        <CardTitle>Scan Results</CardTitle>
+        <CardDescription>Select an issue to see detailed Result</CardDescription>
+      </CardHeader>
+      <CardContent>
+          <div className="flex flex-col items-center text-center py-4">
+            <h3 className="text-center font-semibold mb-4">No Scan Results</h3>
+            <ScanLine className="h-16 w-16 text-primary mb-4 animate-pulse" />
+            <p className="text-muted-foreground mb-4">Start a new scan to view security insights for your project.</p>
+            <Button 
+              className="px-6" 
+              onClick={handleScan} 
+              disabled={isScanning}
+            >
+              {isScanning ? 'Scanning...' : 'Start Scan'}
+            </Button>
+          </div>
+        </CardContent>
+        </Card>
+    )
+  }
 
   // Calculate statistics for open source vulnerabilities
   const openSourceStats = {
@@ -45,10 +91,8 @@ export default function SecurityScanner({ openSourceData, codeSecurityData, conf
     low: codeSecurityData.runs[0]?.results.filter((r) => r.level === "note").length || 0,
   }
 
-  const [selectedVulnerabilityIdx, setSelectedVulnerabilityIdx] = useState<number | null>(null);
-
   return (
-    <div className="container mx-auto p-4 space-y-6">
+    <div className="container mx-auto space-y-6">
       <Tabs defaultValue="opensource" className="space-y-4">
         <TabsList>
           <TabsTrigger value="opensource" className="flex items-center gap-2">

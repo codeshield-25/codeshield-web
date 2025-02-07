@@ -78,7 +78,7 @@ export default function GitHubStyleCodeView({ exampleCommitFixes }: GitHubStyleC
                 </td>
 
                 {/* Code Content */}
-                <td className="px-2 py-0.5 w-full">
+                <td className="px-2 py-0.5 w-full" style={{ fontSize: ".82rem" }}>
                   <span
                     className={
                       line.lineChange === "added"
