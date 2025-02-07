@@ -1,0 +1,86 @@
+{
+    "VOTD_DATA": {
+        "history": {
+            "2025-02-01": {
+                "id": "1",
+                "title": "Broken Access Control",
+                "description": "Improper access control can expose sensitive information and unauthorized resources.",
+                "severity": "Critical",
+                "impact": "Can lead to data breaches, privilege escalation, and unauthorized access.",
+                "solution": "Implement role-based access control and verify permissions systematically.",
+                "reference": "https://owasp.org/www-project-top-ten/2021/A01_2021-Broken_Access_Control",
+                "completed": false
+            },
+            "2025-02-02": {
+                "id": "2",
+                "title": "Security Misconfiguration",
+                "description": "Default configurations can expose your application to attacks.",
+                "severity": "High",
+                "impact": "Can lead to data leaks, exploitation of vulnerabilities, and system compromise.",
+                "solution": "Regularly update configurations and remove unused services or features.",
+                "reference": "https://owasp.org/www-project-top-ten/2021/A05_2021-Security_Misconfiguration",
+                "completed": false
+            },
+            "2025-02-03": {
+                "id": "3",
+                "title": "Sensitive Data Exposure",
+                "description": "Sensitive data is not properly protected, making it vulnerable to theft.",
+                "severity": "Critical",
+                "impact": "Can lead to identity theft, fraud, and compliance violations.",
+                "solution": "Use encryption, enforce HTTPS, and secure data in transit and at rest.",
+                "reference": "https://owasp.org/www-project-top-ten/2021/A02_2021-Cryptographic_Failures",
+                "completed": false
+            },
+            "2025-02-04": {
+                "id": "4",
+                "title": "Broken Authentication",
+                "description": "Weak authentication mechanisms can allow unauthorized access.",
+                "severity": "Critical",
+                "impact": "Can lead to account takeovers and unauthorized system access.",
+                "solution": "Implement strong password policies, use MFA, and prevent brute force attacks.",
+                "reference": "https://owasp.org/www-project-top-ten/2021/A07_2021-Identification_and_Authentication_Failures",
+                "completed": false
+            },
+            "2025-02-05": {
+                "id": "5",
+                "title": "Cross-Site Scripting (XSS)",
+                "description": "XSS attacks inject malicious scripts into web applications.",
+                "severity": "Medium",
+                "impact": "Can lead to session hijacking, defacement, and phishing attacks.",
+                "solution": "Sanitize and validate user input, use Content Security Policy (CSP).",
+                "reference": "https://owasp.org/www-community/attacks/xss",
+                "completed": true
+            },
+            "2025-02-06": {
+                "id": "6",
+                "title": "SQL Injection",
+                "description": "SQL Injection is a code injection technique that can destroy your database.",
+                "severity": "High",
+                "impact": "Can lead to data breaches, unauthorized access, and database corruption.",
+                "solution": "Use parameterized queries and prepared statements to prevent injection.",
+                "reference": "https://owasp.org/www-community/attacks/SQL_Injection",
+                "completed": false
+            },
+            "2025-02-07": {
+                "id": "7",
+                "title": "Insecure Design",
+                "description": "Flaws in application design lead to exploitable vulnerabilities.",
+                "severity": "Medium",
+                "impact": "Can result in data leaks, improper functionality, and insecure integrations.",
+                "solution": "Follow secure design principles and perform threat modeling during development.",
+                "reference": "https://owasp.org/www-project-top-ten/2021/A04_2021-Insecure_Design",
+                "completed": false
+            },
+            "2025-02-08": {
+                "id": "8",
+                "title": "Server-Side Request Forgery (SSRF)",
+                "description": "SSRF allows attackers to send requests from a server to unintended destinations.",
+                "severity": "High",
+                "impact": "Can lead to unauthorized data access and compromise of internal systems.",
+                "solution": "Validate and sanitize user inputs, and restrict outbound requests.",
+                "reference": "https://owasp.org/www-project-top-ten/2021/A10_2021-Server_Side_Request_Forgery",
+                "completed": false
+            }
+        }
+    }
+}

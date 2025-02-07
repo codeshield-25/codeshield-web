@@ -5,6 +5,7 @@ const path = require('path');
 const together = require('together-ai')
 const dotenv = require('dotenv');
 const cors = require('cors');
+const { VOTD_DATA } = require('./db.json');
 
 const app = express();
 
@@ -165,6 +166,46 @@ app.post('/query',async(req,res)=>{
     res.send(data);
 }
 )
+
+
+// ✅ Endpoint 1: Get VOTD by Date
+app.get("/votd/:date", (req, res) => {
+  const date = req.params.date;
+  const votd = VOTD_DATA.history[date];
+
+  if (!votd) {
+    return res.status(404).json({ error: "No VOTD found for this date" });
+  }
+  res.json(votd);
+});
+
+// ✅ Endpoint 2: Get VOTD History by Month & Year
+app.get("/votd/history", (req, res) => {
+  const { month, year } = req.param;
+  if (!month || !year) {
+    return res.status(400).json({ error: "Month and Year are required" });
+  }
+
+  const filteredVOTD = Object.entries(VOTD_DATA.history)
+    .filter(([date]) => date.startsWith(`${year}-${month.padStart(2, "0")}`))
+    .reduce((acc, [date, data]) => ({ ...acc, [date]: data }), {});
+
+  res.json(filteredVOTD);
+});
+
+// ✅ Endpoint 3: Mark VOTD as Read
+app.post("/votd/:votdId/complete", (req, res) => {
+  const { votdId } = req.params;
+
+  for (let date in VOTD_DATA.history) {
+    if (VOTD_DATA.history[date].id === votdId) {
+      VOTD_DATA.history[date].completed = true;
+      return res.json({ message: "VOTD marked as completed", data: VOTD_DATA.history[date] });
+    }
+  }
+
+  res.status(404).json({ error: "VOTD not found" });
+});
 
 // Start the server
 const PORT = 3000;

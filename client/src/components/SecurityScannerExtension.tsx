@@ -7,7 +7,7 @@ import AIRecommendations from "./AIRecommendations"
 import AICodeRewrite from "./AICodeRewrite"
 import SecurityVisualizationDashboard from "./SecurityVisualizationDashboard"
 import RealTimeCollaboration from "./TeamChat"
-import SecurityGameification from "./SecurityGameification"
+import Gamification from "./Gamification"
 import NaturalLanguageQuery from "./NaturalLanguageQuery"
 import PredictiveAnalysis from "./PredictiveAnalysis"
 import SecureCodeGeneration from "./SecureCodeGeneration"
@@ -243,7 +243,7 @@ export default function SecurityScannerExtension() {
           <div>Please select a team to use the collaboration feature.</div>
         )
       case "gamification":
-        return <SecurityGameification />
+        return <Gamification />
       case "nlq":
         return <NaturalLanguageQuery />
       case "predictive":
