@@ -142,6 +142,15 @@ app.get('/ai',async (req,res) => {
     res.send(data);
 })
 
+
+//Natural Language query
+app.get('/query',async(req,res)=>{
+    const query = req.body;
+    const data=await main(query);
+    res.send(data);
+})
+
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
