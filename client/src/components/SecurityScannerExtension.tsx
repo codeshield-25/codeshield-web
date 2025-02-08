@@ -22,6 +22,9 @@ import { useAuth } from "./AuthContext"
 import { db } from "./firebaseConfig"
 import { collection, query, where, onSnapshot } from "firebase/firestore"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
+import openSourceData from "../assets/opensource.json"
+import codeSecurityData from "../assets/codesecurity.json"
+import configData from "../assets/config.json"
 
 const vulnerabilityTypes = ["OWASP Top 10", "SANS Top 25", "Business Logic", "Emerging Threats"]
 
@@ -127,7 +130,8 @@ export default function SecurityScannerExtension() {
           />
         )
       case "results":
-        return <ScanResults results={scanResults} />
+        // return <ScanResults results={scanResults} />
+        return <ScanResults openSourceData={openSourceData} codeSecurityData={codeSecurityData} configData={configData} />
       case "ai":
         return <AIRecommendations results={scanResults} />
       case "rewrite":
