@@ -4,11 +4,18 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
-const SNYK_TOKEN = 'c93ce3f5-9f3c-463a-9b2f-0f03afa24123'; // Replace with your Snyk token
 
 // Middleware to parse JSON request bodies
-app.use(express.json());
+app.use(express.text());
+dotenv.config();
+
+// Tokens
+const SNYK_TOKEN = process.env.SNYK_TOKEN
+const TOGETHER_TOKEN = process.env.TOGETHER_TOKEN
+
+const client = new together({
+    apiKey: TOGETHER_TOKEN
+});
 
 // Endpoint to scan a GitHub repository
 app.post('/scan', (req, res) => {
@@ -116,7 +123,27 @@ app.post('/scan', (req, res) => {
         });
 });
 
+async function main(prompt) {
+    const stream = await client.chat.completions.create({
+        // model: 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B-free',
+        model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free',
+        messages: [{ role: 'user', content: prompt }],
+        // stream: true,
+    });
+    // for await (const chunk of stream) {
+    //     process.stdout.write(chunk.choices[0]?.delta?.content || '');
+    // }
+    // console.log(stream.choices[0].message.content);
+    return stream.choices[0].message.content;
+}
+app.get('/ai',async (req,res) => {
+    const message = req.body;
+    const data = await main(message);
+    res.send(data);
+})
+
 // Start the server
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`CodeShield server running on http://localhost:${PORT}`);
 });
