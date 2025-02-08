@@ -2,16 +2,25 @@ const express = require('express');
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const together = require('together-ai')
+const dotenv = require('dotenv');
+const cors = require('cors');
 
 const app = express();
 
-// Middleware to parse JSON request bodies
-app.use(express.text());
+app.use(cors({ 
+    origin: '*', // Allow requests from React
+    credentials: true 
+}));
+
+// Middleware to parse JSON request bodies and plain text
+app.use(express.json());
+app.use(express.text({ type: 'text/plain' }));
 dotenv.config();
 
 // Tokens
 const SNYK_TOKEN = process.env.SNYK_TOKEN
-const TOGETHER_TOKEN = process.env.TOGETHER_TOKEN
+const TOGETHER_TOKEN = process.env.TOGETHER_API_KEY
 
 const client = new together({
     apiKey: TOGETHER_TOKEN
@@ -136,7 +145,9 @@ async function main(prompt) {
     // console.log(stream.choices[0].message.content);
     return stream.choices[0].message.content;
 }
-app.get('/ai',async (req,res) => {
+
+
+app.post('/ai',async (req,res) => {
     const message = req.body;
     const data = await main(message);
     res.send(data);
@@ -144,7 +155,7 @@ app.get('/ai',async (req,res) => {
 
 
 //Natural Language query
-app.get('/query',async(req,res)=>{
+app.post('/query',async(req,res)=>{
     const query = req.body;
     const data=await main(query);
     res.send(data);
