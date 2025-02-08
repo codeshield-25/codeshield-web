@@ -1,43 +1,18 @@
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import TeamChat from "./TeamChat"
 
-export default function RealTimeCollaboration() {
-  const [messages, setMessages] = useState<string[]>([])
-  const [newMessage, setNewMessage] = useState('')
+interface RealTimeCollaborationProps {
+  teamId: string
+  teamName: string
+}
 
-  const handleSendMessage = () => {
-    if (newMessage.trim()) {
-      setMessages([...messages, newMessage])
-      setNewMessage('')
-    }
-  }
+export default function RealTimeCollaboration({ teamId, teamName }: RealTimeCollaborationProps) {
+   
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Real-Time Collaboration</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="h-64 overflow-y-auto mb-4 border rounded-md p-2">
-          {messages.map((msg, index) => (
-            <div key={index} className="mb-2">
-              <span className="font-semibold">User:</span> {msg}
-            </div>
-          ))}
-        </div>
-        <div className="flex space-x-2">
-          <Input
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-            placeholder="Type your message..."
-            onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-          />
-          <Button onClick={handleSendMessage}>Send</Button>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Real-Time Collaboration</h1>
+      <TeamChat teamId={teamId} teamName={teamName} />
+    </div>
   )
 }
 
