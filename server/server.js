@@ -11,16 +11,17 @@ const app = express();
 app.use(cors({ 
     origin: '*', // Allow requests from React
     credentials: true 
-}));
+  }));
 
+  
 // Middleware to parse JSON request bodies and plain text
 app.use(express.json());
 app.use(express.text({ type: 'text/plain' }));
 dotenv.config();
 
 // Tokens
-const SNYK_TOKEN = process.env.SNYK_TOKEN
-const TOGETHER_TOKEN = process.env.TOGETHER_API_KEY
+const SNYK_TOKEN = process.env.SNYK_TOKEN;
+const TOGETHER_TOKEN = process.env.TOGETHER_API_KEY;
 
 const client = new together({
     apiKey: TOGETHER_TOKEN
@@ -34,7 +35,6 @@ app.post('/scan', (req, res) => {
     if (!repoUrl || !repoUrl.startsWith('https://github.com/')) {
         return res.status(400).json({ error: 'Invalid or missing GitHub repository URL.' });
     }
-
     const scanCommands = {
         open_source: 'snyk test',               // Open source security
         code_security: 'snyk code test',       // Code security
@@ -146,24 +146,27 @@ async function main(prompt) {
     return stream.choices[0].message.content;
 }
 
-
+//AI rewrite 
 app.post('/ai',async (req,res) => {
+
     const message = req.body;
     const data = await main(message);
-    res.send(data);
-})
 
+    res.send(data);
+
+})
 
 //Natural Language query
 app.post('/query',async(req,res)=>{
     const query = req.body;
     const data=await main(query);
-    res.send(data);
-})
 
+    res.send(data);
+}
+)
 
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`CodeShield server running on http://localhost:${PORT}`);
+    console.log(`Snyk scan server running on http://localhost:${PORT}`);
 });

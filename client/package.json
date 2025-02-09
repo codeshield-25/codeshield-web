@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "react-syntax-highlighter": "^15.6.1",
+    "sonner": "^1.7.4",
     "@octokit/rest": "^21.1.0",
     "@radix-ui/react-avatar": "^1.1.2",
     "@radix-ui/react-checkbox": "^1.1.3",

@@ -1,15 +1,30 @@
-import { useState } from 'react'
+"use client"
+
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Code, RefreshCw } from 'lucide-react'
+import { Code, RefreshCw, ChevronDown } from "lucide-react"
+import axios from "axios"
+import { Light as SyntaxHighlighter } from "react-syntax-highlighter"
+import { AnimatedCode } from "./AnimatedCode"
+
+// Import all languages you want to support
+import js from "react-syntax-highlighter/dist/esm/languages/hljs/javascript"
+import python from "react-syntax-highlighter/dist/esm/languages/hljs/python"
+import java from "react-syntax-highlighter/dist/esm/languages/hljs/java"
+// Add more languages as needed
+
+SyntaxHighlighter.registerLanguage("javascript", js)
+SyntaxHighlighter.registerLanguage("python", python)
+SyntaxHighlighter.registerLanguage("java", java)
+// Register more languages as needed
 
 interface Vulnerability {
   id: number
   type: string
   name: string
-  severity: 'Low' | 'Medium' | 'High'
+  severity: "Low" | "Medium" | "High"
   location: string
 }
 
@@ -18,100 +33,138 @@ interface AICodeRewriteProps {
 }
 
 export default function AICodeRewrite({ vulnerabilities }: AICodeRewriteProps) {
-  const [selectedVulnerability, setSelectedVulnerability] = useState<Vulnerability | null>(
-    vulnerabilities.length > 0 ? vulnerabilities[0] : null
-  )
-  const [originalCode, setOriginalCode] = useState('')
-  const [rewrittenCode, setRewrittenCode] = useState('')
+  const [originalCode, setOriginalCode] = useState("")
+  const [rewrittenCode, setRewrittenCode] = useState("")
   const [isRewriting, setIsRewriting] = useState(false)
-  const [activeTab, setActiveTab] = useState('original')
+  const [activeTab, setActiveTab] = useState("original")
+  const [language, setLanguage] = useState("javascript")
+  const [showScrollButton, setShowScrollButton] = useState(false)
+  const [shouldAnimate, setShouldAnimate] = useState(true)
+  const rewrittenCodeRef = useRef<HTMLDivElement>(null)
 
-  const handleRewrite = () => {
-    if (!selectedVulnerability) return
+  useEffect(() => {
+    detectLanguage(originalCode)
+  }, [originalCode])
 
+  useEffect(() => {
+    if (rewrittenCode && activeTab === "rewritten") {
+      scrollToBottom()
+    }
+  }, [rewrittenCode, activeTab])
+
+  const detectLanguage = (code: string) => {
+    if (code.includes("def ") || code.includes("import ")) {
+      setLanguage("python")
+    } else if (code.includes("public class ") || code.includes("System.out.println")) {
+      setLanguage("java")
+    } else {
+      setLanguage("javascript")
+    }
+  }
+
+  const handleRewrite = async () => {
     setIsRewriting(true)
-    // Simulating AI code rewrite process
-    setTimeout(() => {
-      setRewrittenCode(`
-// Rewritten code to fix ${selectedVulnerability.name}
-function secureFunction(userInput) {
-  // Sanitize input
-  const sanitizedInput = sanitizeInput(userInput);
-  
-  // Use parameterized query
-  const query = 'SELECT * FROM users WHERE username = ?';
-  const result = db.execute(query, [sanitizedInput]);
-  
-  return result;
-}
+    setActiveTab("rewritten")
+    setShouldAnimate(true)
+    setRewrittenCode("") // Clear previous output
+    const url = "http://localhost:3000/ai"
+    const prefixInfo =
+      "Optimize and correct the following code to make it the best version possible, ensuring it is efficient, free from vulnerabilities, and adheres to best practices. Provide only the corrected and optimized code without any explanation or description.And also don't send any unneccessary comment, but you can send examples to use that rewritten code and any information you think that user needs to know to use that rewritten code. \n\n"
+    const data = prefixInfo + originalCode
 
-function sanitizeInput(input) {
-  // Implement input sanitization logic
-  return input.replace(/[^\w\s]/gi, '');
-}
-      `)
+    try {
+      const response = await axios.post(url, data, {
+        headers: {
+          "Content-Type": "text/plain",
+        },
+      })
+      const aiResponse = response.data
+      const match = aiResponse.match(/```(\w+)\n([\s\S]+?)```/)
+      if (match) {
+        setLanguage(match[1])
+        setRewrittenCode(match[2].trim())
+      } else {
+        setRewrittenCode(aiResponse)
+      }
+    } catch (error) {
+      console.error("Error:", error)
+    } finally {
       setIsRewriting(false)
-      setActiveTab('rewritten') // Switch to the rewritten code tab
-    }, 2000)
+    }
+  }
+
+  const handleScroll = () => {
+    if (rewrittenCodeRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = rewrittenCodeRef.current
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 50
+      setShowScrollButton(!isNearBottom)
+    }
+  }
+
+  const scrollToBottom = () => {
+    if (rewrittenCodeRef.current) {
+      rewrittenCodeRef.current.scrollTo({
+        top: rewrittenCodeRef.current.scrollHeight,
+        behavior: "smooth",
+      })
+    }
+  }
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value)
+    if (value === "rewritten") {
+      setShouldAnimate(false)
+    }
   }
 
   return (
-    <Card>
+    <Card className="w-full max-w-4xl mx-auto">
       <CardHeader>
         <CardTitle>AI Code Rewrite</CardTitle>
       </CardHeader>
       <CardContent>
-        <Card>
-          <CardHeader>
-            <CardTitle>Select Vulnerability to Rewrite</CardTitle>
-            <CardDescription>Choose a detected vulnerability to see AI-suggested code rewrites.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {vulnerabilities.length > 0 ? (
-              <select
-                className="w-full p-2 border rounded"
-                value={selectedVulnerability?.id || ''}
-                onChange={(e) => {
-                  const selected = vulnerabilities.find(v => v.id === parseInt(e.target.value));
-                  setSelectedVulnerability(selected || null);
-                }}
-              >
-                {vulnerabilities.map((vuln) => (
-                  <option key={vuln.id} value={vuln.id}>
-                    {vuln.name} - {vuln.severity} ({vuln.location})
-                  </option>
-                ))}
-              </select>
-            ) : (
-              <p>No vulnerabilities detected.</p>
-            )}
-          </CardContent>
-        </Card>
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <Tabs value={activeTab} onValueChange={handleTabChange}>
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="original">Original Code</TabsTrigger>
             <TabsTrigger value="rewritten">Rewritten Code</TabsTrigger>
           </TabsList>
           <TabsContent value="original">
-            <Textarea
+            <textarea
               placeholder="Paste your original code here"
               value={originalCode}
               onChange={(e) => setOriginalCode(e.target.value)}
-              rows={10}
-              className="w-full p-2 font-mono text-sm"
+              rows={20}
+              className="w-full p-2 font-mono text-sm mt-2 border rounded-md"
             />
           </TabsContent>
           <TabsContent value="rewritten">
-            <Textarea
-              value={rewrittenCode}
-              rows={10}
-              readOnly
-              className="w-full p-2 font-mono text-sm bg-muted"
-            />
+            <div className="relative">
+              {/* Scrollable container */}
+              <div ref={rewrittenCodeRef} onScroll={handleScroll} className="h-[400px] overflow-auto border rounded-md">
+                {rewrittenCode ? (
+                  <AnimatedCode code={rewrittenCode} language={language} shouldAnimate={shouldAnimate} />
+                ) : (
+                  <div className="h-full flex items-center justify-center text-gray-500">
+                    Rewritten code will appear here
+                  </div>
+                )}
+              </div>
+
+              {/* Fixed Scroll to Bottom Button */}
+              <Button
+                onClick={scrollToBottom}
+                className={`absolute bottom-4 right-4 rounded-full transition-opacity duration-300 ${
+                  showScrollButton ? "opacity-100" : "opacity-0 pointer-events-none"
+                }`}
+                size="icon"
+              >
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+            </div>
           </TabsContent>
         </Tabs>
         <div className="flex justify-between mt-4">
-          <Button onClick={handleRewrite} disabled={isRewriting || !originalCode || !selectedVulnerability}>
+          <Button onClick={handleRewrite} disabled={isRewriting || !originalCode}>
             {isRewriting ? (
               <>
                 <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -124,11 +177,6 @@ function sanitizeInput(input) {
               </>
             )}
           </Button>
-          {rewrittenCode && (
-            <Button variant="outline">
-              Apply Rewritten Code
-            </Button>
-          )}
         </div>
       </CardContent>
     </Card>
