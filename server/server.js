@@ -165,6 +165,10 @@ app.post('/query',async(req,res)=>{
 }
 )
 
+app.get('/', (req, res) => {
+    res.send('Server is running');
+});
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
