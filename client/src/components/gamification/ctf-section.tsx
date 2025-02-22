@@ -9,6 +9,7 @@ import { Trophy, Calendar, Flag, Users, Timer, ArrowRight, CheckCircle } from "l
 import { motion } from "framer-motion"
 import type { CTFEvent } from "../../../types/gamification"
 
+
 const mockCTFEvents: CTFEvent[] = [
   {
     id: "1",
@@ -36,8 +37,8 @@ const mockCTFEvents: CTFEvent[] = [
     endDate: new Date(),
     points: 300,
     status: "Completed",
-  },
-]
+  }
+];
 
 export function CTFSection() {
   const [registeredEvents, setRegisteredEvents] = useState<string[]>([])
@@ -52,7 +53,7 @@ export function CTFSection() {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card-hover-effect">
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
             <CardHeader>
-              <CardTitle className="text-lg">Active Competitions</CardTitle>
+              <CardTitle className="text-lg dark:text-black">Active Competitions</CardTitle>
               <p className="text-3xl font-bold text-blue-600">2</p>
             </CardHeader>
           </Card>
@@ -66,7 +67,7 @@ export function CTFSection() {
         >
           <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
             <CardHeader>
-              <CardTitle className="text-lg">Your Total Points</CardTitle>
+              <CardTitle className="text-lg dark:text-black">Your Total Points</CardTitle>
               <p className="text-3xl font-bold text-green-600">1,250</p>
             </CardHeader>
           </Card>
@@ -80,14 +81,14 @@ export function CTFSection() {
         >
           <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
             <CardHeader>
-              <CardTitle className="text-lg">Global Rank</CardTitle>
+              <CardTitle className="text-lg dark:text-black">Global Rank</CardTitle>
               <p className="text-3xl font-bold text-purple-600">#42</p>
             </CardHeader>
           </Card>
         </motion.div>
       </div>
 
-      <ScrollArea className="h-[600px] rounded-md border">
+      <ScrollArea className="h-[600px] rounded-xl border p-2">
         {mockCTFEvents.map((event) => (
           <motion.div
             key={event.id}

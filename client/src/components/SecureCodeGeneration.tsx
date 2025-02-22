@@ -121,7 +121,7 @@ export default function SecureCodeGeneration() {
                 fetchLanguagesAndPatterns().then(() => handleGenerate())
               }}
               disabled={!selectedLanguage || !selectedPattern || isLoading}
-              className="px-8 bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all"
+              className="px-8 bg-black dark:bg-primary hover:bg-black dark:bg-primary/90 shadow-lg hover:shadow-xl transition-all"
               size="lg"
             >
               {isLoading ? (

@@ -224,7 +224,7 @@ export default function AIRecommendations({ codeSecurityData, handleScan, isScan
         {uniqueIssues.length === 0 ? (
           <div className="flex flex-col items-center text-center py-4">
             <h3 className="text-center font-semibold mb-4">No Scan Results</h3>
-            <ScanLine className="h-16 w-16 text-primary mb-4 animate-pulse" />
+            <ScanLine className="h-16 w-16 dark:text-primary mb-4 animate-pulse" />
             <p className="text-muted-foreground mb-4">Start a new scan to view security insights for your project.</p>
             <Button 
               className="px-6" 

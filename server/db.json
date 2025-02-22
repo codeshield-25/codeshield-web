@@ -43,42 +43,242 @@
             },
             "2025-02-05": {
                 "id": "5",
-                "title": "Cross-Site Scripting (XSS)",
-                "description": "XSS attacks inject malicious scripts into web applications.",
-                "severity": "Medium",
-                "impact": "Can lead to session hijacking, defacement, and phishing attacks.",
-                "solution": "Sanitize and validate user input, use Content Security Policy (CSP).",
-                "reference": "https://owasp.org/www-community/attacks/xss",
-                "completed": true
+                "title": "Security Issue 5",
+                "description": "Description of Security Issue 5.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 5.",
+                "solution": "Solution for mitigating Security Issue 5.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
             },
             "2025-02-06": {
                 "id": "6",
-                "title": "SQL Injection",
-                "description": "SQL Injection is a code injection technique that can destroy your database.",
-                "severity": "High",
-                "impact": "Can lead to data breaches, unauthorized access, and database corruption.",
-                "solution": "Use parameterized queries and prepared statements to prevent injection.",
-                "reference": "https://owasp.org/www-community/attacks/SQL_Injection",
-                "completed": false
+                "title": "Security Issue 6",
+                "description": "Description of Security Issue 6.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 6.",
+                "solution": "Solution for mitigating Security Issue 6.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
             },
             "2025-02-07": {
                 "id": "7",
-                "title": "Insecure Design",
-                "description": "Flaws in application design lead to exploitable vulnerabilities.",
-                "severity": "Medium",
-                "impact": "Can result in data leaks, improper functionality, and insecure integrations.",
-                "solution": "Follow secure design principles and perform threat modeling during development.",
-                "reference": "https://owasp.org/www-project-top-ten/2021/A04_2021-Insecure_Design",
+                "title": "Security Issue 7",
+                "description": "Description of Security Issue 7.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 7.",
+                "solution": "Solution for mitigating Security Issue 7.",
+                "reference": "https://owasp.org/www-project-top-ten/",
                 "completed": false
             },
             "2025-02-08": {
                 "id": "8",
-                "title": "Server-Side Request Forgery (SSRF)",
-                "description": "SSRF allows attackers to send requests from a server to unintended destinations.",
+                "title": "Security Issue 8",
+                "description": "Description of Security Issue 8.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 8.",
+                "solution": "Solution for mitigating Security Issue 8.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-09": {
+                "id": "9",
+                "title": "Security Issue 9",
+                "description": "Description of Security Issue 9.",
                 "severity": "High",
-                "impact": "Can lead to unauthorized data access and compromise of internal systems.",
-                "solution": "Validate and sanitize user inputs, and restrict outbound requests.",
-                "reference": "https://owasp.org/www-project-top-ten/2021/A10_2021-Server_Side_Request_Forgery",
+                "impact": "Impact details for Security Issue 9.",
+                "solution": "Solution for mitigating Security Issue 9.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
+            },
+            "2025-02-10": {
+                "id": "10",
+                "title": "Security Issue 10",
+                "description": "Description of Security Issue 10.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 10.",
+                "solution": "Solution for mitigating Security Issue 10.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-11": {
+                "id": "11",
+                "title": "Security Issue 11",
+                "description": "Description of Security Issue 11.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 11.",
+                "solution": "Solution for mitigating Security Issue 11.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-12": {
+                "id": "12",
+                "title": "Security Issue 12",
+                "description": "Description of Security Issue 12.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 12.",
+                "solution": "Solution for mitigating Security Issue 12.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
+            },
+            "2025-02-13": {
+                "id": "13",
+                "title": "Security Issue 13",
+                "description": "Description of Security Issue 13.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 13.",
+                "solution": "Solution for mitigating Security Issue 13.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-14": {
+                "id": "14",
+                "title": "Security Issue 14",
+                "description": "Description of Security Issue 14.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 14.",
+                "solution": "Solution for mitigating Security Issue 14.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-15": {
+                "id": "15",
+                "title": "Security Issue 15",
+                "description": "Description of Security Issue 15.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 15.",
+                "solution": "Solution for mitigating Security Issue 15.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
+            },
+            "2025-02-16": {
+                "id": "16",
+                "title": "Security Issue 16",
+                "description": "Description of Security Issue 16.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 16.",
+                "solution": "Solution for mitigating Security Issue 16.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-17": {
+                "id": "17",
+                "title": "Security Issue 17",
+                "description": "Description of Security Issue 17.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 17.",
+                "solution": "Solution for mitigating Security Issue 17.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-18": {
+                "id": "18",
+                "title": "Security Issue 18",
+                "description": "Description of Security Issue 18.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 18.",
+                "solution": "Solution for mitigating Security Issue 18.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
+            },
+            "2025-02-19": {
+                "id": "19",
+                "title": "Security Issue 19",
+                "description": "Description of Security Issue 19.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 19.",
+                "solution": "Solution for mitigating Security Issue 19.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-20": {
+                "id": "20",
+                "title": "Security Issue 20",
+                "description": "Description of Security Issue 20.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 20.",
+                "solution": "Solution for mitigating Security Issue 20.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-21": {
+                "id": "21",
+                "title": "Security Issue 21",
+                "description": "Description of Security Issue 21.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 21.",
+                "solution": "Solution for mitigating Security Issue 21.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
+            },
+            "2025-02-22": {
+                "id": "22",
+                "title": "Security Issue 22",
+                "description": "Description of Security Issue 22.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 22.",
+                "solution": "Solution for mitigating Security Issue 22.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-23": {
+                "id": "23",
+                "title": "Security Issue 23",
+                "description": "Description of Security Issue 23.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 23.",
+                "solution": "Solution for mitigating Security Issue 23.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-24": {
+                "id": "24",
+                "title": "Security Issue 24",
+                "description": "Description of Security Issue 24.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 24.",
+                "solution": "Solution for mitigating Security Issue 24.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
+            },
+            "2025-02-25": {
+                "id": "25",
+                "title": "Security Issue 25",
+                "description": "Description of Security Issue 25.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 25.",
+                "solution": "Solution for mitigating Security Issue 25.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-26": {
+                "id": "26",
+                "title": "Security Issue 26",
+                "description": "Description of Security Issue 26.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 26.",
+                "solution": "Solution for mitigating Security Issue 26.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": false
+            },
+            "2025-02-27": {
+                "id": "27",
+                "title": "Security Issue 27",
+                "description": "Description of Security Issue 27.",
+                "severity": "High",
+                "impact": "Impact details for Security Issue 27.",
+                "solution": "Solution for mitigating Security Issue 27.",
+                "reference": "https://owasp.org/www-project-top-ten/",
+                "completed": true
+            },
+            "2025-02-28": {
+                "id": "28",
+                "title": "Security Issue 28",
+                "description": "Description of Security Issue 28.",
+                "severity": "Medium",
+                "impact": "Impact details for Security Issue 28.",
+                "solution": "Solution for mitigating Security Issue 28.",
+                "reference": "https://owasp.org/www-project-top-ten/",
                 "completed": false
             }
         }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Book, Video, PenToolIcon as Tool, ExternalLink } from "lucide-react"
 import type { Resource } from "../../../types/gamification"
 import { CardStats } from "@/components/gamification/card-stats" // Import CardStats
+import { motion, AnimatePresence } from "framer-motion"
 
 const mockResources: Resource[] = [
   {
@@ -43,12 +44,46 @@ export function ResourcesSection() {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 md:grid-cols-3">
-        <CardStats title="Total Resources" value="150+" className="bg-blue-50" />
-        <CardStats title="Categories" value="12" className="bg-green-50" />
-        <CardStats title="New This Week" value="5" className="bg-purple-50" />
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card-hover-effect">
+            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+              <CardHeader>
+                <CardTitle className="text-lg dark:text-black">Total Resources</CardTitle>
+                <p className="text-3xl font-bold text-blue-600">150+</p>
+              </CardHeader>
+            </Card>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="card-hover-effect"
+          >
+            <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+              <CardHeader>
+                <CardTitle className="text-lg dark:text-black">Categories</CardTitle>
+                <p className="text-3xl font-bold text-green-600">12</p>
+              </CardHeader>
+            </Card>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="card-hover-effect"
+          >
+            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+              <CardHeader>
+                <CardTitle className="text-lg dark:text-black">New This Week</CardTitle>
+                <p className="text-3xl font-bold text-purple-600">5</p>
+              </CardHeader>
+            </Card>
+          </motion.div>
+        {/* <CardStats title="Total Resources" value="150+" className="bg-blue-50 dark:text-gray-600" />
+        <CardStats title="Categories" value="12" className="bg-green-50 dark:text-gray-600" />
+        <CardStats title="New This Week" value="5" className="bg-purple-50 dark:text-gray-600" /> */}
       </div>
 
-      <ScrollArea className="h-[600px] rounded-md border">
+      <ScrollArea className="h-[600px] rounded-xl border p-2">
         {mockResources.map((resource) => (
           <Card key={resource.id} className="mb-4">
             <CardHeader>

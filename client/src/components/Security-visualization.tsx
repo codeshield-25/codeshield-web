@@ -113,7 +113,7 @@ export default function SecurityVisualization({
   const renderPlaceholder = () => (
     <Card className="w-full">
       <CardContent className="flex flex-col items-center text-center py-8">
-        <ScanLine className="h-16 w-16 text-primary mb-4 animate-pulse" />
+        <ScanLine className="h-16 w-16 dark:text-primary mb-4 animate-pulse" />
         <p className="text-muted-foreground mb-4">Start a new scan to view security insights for your project.</p>
       </CardContent>
     </Card>

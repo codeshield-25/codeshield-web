@@ -1,65 +1,52 @@
 "use client"
 
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
-import { ArrowRight } from "lucide-react"
+import type React from "react"
+
+import { motion, useScroll, useTransform } from "framer-motion"
+import { useRef } from "react"
 
 interface AnimatedCardProps {
   icon: React.ReactNode
   title: string
   content: string
   expandedContent: string
-  delay?: number
+  delay: number
+  isActive: boolean
+  onClick: () => void
 }
 
-export function AnimatedCard({ icon, title, content, expandedContent, delay = 0 }: AnimatedCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false)
+export function AnimatedCard({ icon, title, content, expandedContent, delay, isActive, onClick }: AnimatedCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  })
+
+  const y = useTransform(scrollYProgress, [0, 1], [50, -50])
 
   return (
     <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      whileInView={{ scale: 1, opacity: 1 }}
+      ref={cardRef}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
-      viewport={{ once: true }}
+      whileHover={{ y: -10, transition: { duration: 0.2 } }}
+      style={{ y }}
+      className={`p-6 rounded-lg ${
+        isActive ? "bg-gradient-to-br from-cyan-500 to-blue-700 text-white" : "bg-gray-900 text-gray-100"
+      } shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 cursor-pointer border border-cyan-500/30`}
+      onClick={onClick}
     >
-      <Card
-        className="group relative h-full overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-purple-500/10"
-        onMouseEnter={() => setIsExpanded(true)}
-        onMouseLeave={() => setIsExpanded(false)}
+      <div className="mb-4 text-cyan-400">{icon}</div>
+      <h3 className="text-xl font-semibold mb-2">{title}</h3>
+      <motion.p
+        initial={false}
+        animate={{ height: isActive ? "auto" : "4.5rem" }}
+        transition={{ duration: 0.3 }}
+        className="overflow-hidden text-gray-300"
       >
-        <CardContent className="flex h-full flex-col items-center p-6 text-center">
-          <motion.div
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            className="mb-6 rounded-lg bg-gradient-to-br from-purple-100 to-purple-50 p-3 text-purple-600 shadow-lg transition-shadow duration-300 group-hover:shadow-purple-500/20"
-          >
-            {icon}
-          </motion.div>
-          <h3 className="mb-3 text-xl font-semibold tracking-tight">{title}</h3>
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div
-              key={isExpanded ? "expanded" : "collapsed"}
-              initial="collapsed"
-              animate="expanded"
-              exit="collapsed"
-              variants={{
-                expanded: { height: "auto", opacity: 1 },
-                collapsed: { height: 0, opacity: 0 },
-              }}
-              transition={{ duration: 0.3 }}
-            >
-              <p className="text-muted-foreground">{isExpanded ? expandedContent : content}</p>
-            </motion.div>
-          </AnimatePresence>
-          <motion.div
-            className="mt-auto pt-6"
-            animate={{ rotate: isExpanded ? 90 : 0 }}
-            transition={{ type: "spring", stiffness: 260, damping: 20 }}
-          >
-            <ArrowRight className="h-5 w-5 text-purple-600" />
-          </motion.div>
-        </CardContent>
-      </Card>
+        {isActive ? expandedContent : content}
+      </motion.p>
     </motion.div>
   )
 }

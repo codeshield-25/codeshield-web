@@ -188,7 +188,7 @@ export default function NaturalLanguageQueryChat() {
                 </a>
               ),
               code: ({ children }) => (
-                <code className="bg-gray-200 dark:bg-gray-800 rounded px-1 py-0.5">{children}</code>
+                <code className="bg-gray-200 dark:bg-gray-800 dark:text-white rounded px-1 py-0.5">{children}</code>
               ),
             }}
           >
@@ -202,7 +202,7 @@ export default function NaturalLanguageQueryChat() {
   }
 
   return (
-    <Card className="w-full mx-auto h-[600px] flex flex-col bg-white">
+    <Card className="w-full mx-auto h-[600px] flex flex-col bg-white dark:bg-[#161d27] dark:text-white">
       <CardHeader className="border-b">
         <CardTitle className="text-2xl font-bold text-center flex items-center justify-center">
           <ShieldCheck className="mr-2 text-emerald-500" /> Security Query Interface
@@ -229,10 +229,10 @@ export default function NaturalLanguageQueryChat() {
                     <div
                       className={`relative px-4 py-2 rounded-2xl ${
                         message.isUser
-                          ? "bg-gray-100 hover:bg-gray-200 transition-colors"
+                          ? "bg-gray-100 hover:bg-gray-200 dark:text-black transition-colors px-2"
                           : message.thinking
-                            ? "bg-gray-100 text-gray-600"
-                            : "bg-gray-100 text-black"
+                            ? "bg-gray-100 text-gray-600 dark:text-gray-800"
+                            : "bg-gray-100 text-black dark:text-black"
                       } ${message.content.includes("```") ? "max-w-[85%] w-[85%]" : "max-w-[85%]"}`}
                     >
                       {message.thinking ? (
@@ -245,7 +245,7 @@ export default function NaturalLanguageQueryChat() {
                       )}
                       {message.isUser && (
                         <button className="opacity-0 group-hover:opacity-100 transition-opacity absolute -left-6 top-1/2 -translate-y-1/2">
-                          <LinkIcon className="w-4 h-4 text-gray-400" />
+                          <LinkIcon className="w-4 h-4 text-gray-400 dark:text-white" />
                         </button>
                       )}
                     </div>

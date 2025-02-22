@@ -51,7 +51,7 @@ export default function Dashboard({ onScan, isScanning, vulnerabilityTypes, sele
           </CardHeader>
           <CardContent>
             <Button 
-              className="w-full" 
+              className="w-full bg-gray-900 hover:bg-black dark:bg-green-600 dark:hover:bg-green-800" 
               onClick={onScan} 
               disabled={isScanning}
             >

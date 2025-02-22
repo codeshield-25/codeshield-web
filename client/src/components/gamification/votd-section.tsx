@@ -58,7 +58,7 @@ export function VOTDSection() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card-hover-effect">
             <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
               <CardHeader>
-                <CardTitle className="text-lg">Streak</CardTitle>
+                <CardTitle className="text-lg dark:text-black">Streak</CardTitle>
                 <p className="text-3xl font-bold text-blue-600">5 days</p>
               </CardHeader>
             </Card>
@@ -72,7 +72,7 @@ export function VOTDSection() {
           >
             <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
               <CardHeader>
-                <CardTitle className="text-lg">Points Today</CardTitle>
+                <CardTitle className="text-lg dark:text-black">Points Today</CardTitle>
                 <p className="text-3xl font-bold text-green-600">100</p>
               </CardHeader>
             </Card>
@@ -86,7 +86,7 @@ export function VOTDSection() {
           >
             <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
               <CardHeader>
-                <CardTitle className="text-lg">Total Points</CardTitle>
+                <CardTitle className="text-lg dark:text-black">Total Points</CardTitle>
                 <p className="text-3xl font-bold text-purple-600">1,250</p>
               </CardHeader>
             </Card>
@@ -118,7 +118,11 @@ export function VOTDSection() {
                       <CardTitle>{currentVOTD.title}</CardTitle>
                     </div>
                     <Badge
-                      variant={currentVOTD.severity === "High" ? "destructive" : "default"}
+                      variant={currentVOTD.severity === "High"
+                        ? "destructive"
+                        : currentVOTD.severity === "Medium"
+                          ? "default"
+                          : "secondary"}
                       className="animate"
                     >
                       {currentVOTD.severity} Severity

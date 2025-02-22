@@ -27,6 +27,7 @@ import { toast } from "@/hooks/use-toast"
 // import codeSecurityData from "../assets/codesecurity.json"
 import configData from "../assets/config.json"
 import { TeamStats,Team } from "../../types/security-types"
+import { ThemeProvider } from "./ThemeProvider";
 
 const vulnerabilityTypes = ["OWASP Top 10", "SANS Top 25", "Business Logic", "Emerging Threats"]
 
@@ -279,31 +280,33 @@ export default function SecurityScannerExtension() {
   }
 
   return (
-    <Layout
-      sidebar={
-        <Sidebar
-          teams={teams}
-          selectedTeam={selectedTeam}
-          onTeamChange={handleTeamChange}
-          activePage={activePage}
-          setActivePage={setActivePage}
-        />
-      }
-      handleScan={handleScan}
-      isScanning={isScanning}
-      openSourceData={openSourceData}
-      codeSecurityData={codeSecurityData}
-      configData={configData}
-      teamStats={teams.find((team) => team.id === selectedTeam)?.teamStats || { avgHighVulCnt: 0, avgMidVulCnt: 0, avgLowVulCnt: 0 }}
-      projectName="Camp-Ground"
-    >
-      {renderActivePage()}
-      <Dialog open={showJoinTeamDialog} onOpenChange={setShowJoinTeamDialog}>
-        <DialogContent>
-          <JoinTeam onClose={() => setShowJoinTeamDialog(false)} />
-        </DialogContent>
-      </Dialog>
-    </Layout>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <Layout
+        sidebar={
+          <Sidebar
+            teams={teams}
+            selectedTeam={selectedTeam}
+            onTeamChange={handleTeamChange}
+            activePage={activePage}
+            setActivePage={setActivePage}
+          />
+        }
+        handleScan={handleScan}
+        isScanning={isScanning}
+        openSourceData={openSourceData}
+        codeSecurityData={codeSecurityData}
+        configData={configData}
+        teamStats={teams.find((team) => team.id === selectedTeam)?.teamStats || { avgHighVulCnt: 0, avgMidVulCnt: 0, avgLowVulCnt: 0 }}
+        projectName="Camp-Ground"
+      >
+        {renderActivePage()}
+        <Dialog open={showJoinTeamDialog} onOpenChange={setShowJoinTeamDialog}>
+          <DialogContent>
+            <JoinTeam onClose={() => setShowJoinTeamDialog(false)} />
+          </DialogContent>
+        </Dialog>
+      </Layout>
+    </ThemeProvider>
   )
 }
 

@@ -163,7 +163,7 @@ export function Sidebar({ teams, selectedTeam, onTeamChange, activePage, setActi
         <div className="p-4 border-t">
           <Button
             variant="default"
-            className="w-full justify-center bg-black text-white hover:bg-gray-800"
+            className="w-full justify-center bg-black text-white hover:bg-gray-800 dark:bg-green-600 dark:hover:bg-green-700"
             onClick={signOut}
           >
             <LogOut className="h-4 w-4 mr-1" />

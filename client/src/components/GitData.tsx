@@ -8,7 +8,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
 import Toast from "./Toast"
-import { AlertCircle, RefreshCw } from "lucide-react"
+import { AlertCircle, RefreshCw, GitCommitHorizontal } from 'lucide-react'
 
 interface GitDataProps {
   initialRepoUrl: string
@@ -23,6 +23,13 @@ interface RepoItem {
   children: RepoItem[]
 }
 
+// Add interface for commit info
+interface CommitInfo {
+  hash: string;
+  message: string;
+  date: string;
+}
+
 const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
   const [repoUrl, setRepoUrl] = useState(initialRepoUrl)
   const [repoData, setRepoData] = useState<RepoItem[]>([])
@@ -35,6 +42,9 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
   const [teamId, setTeamId] = useState<string | null>(null)
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null)
   const { user } = useAuth()
+
+  // Add state for commit info
+  const [commitInfo, setCommitInfo] = useState<CommitInfo | null>(null);
 
   const getOwnerAndRepo = useCallback((url: string) => {
     const match = url.match(/github\.com\/(.+?)\/(.+?)(?:\.git|$)/)
@@ -75,6 +85,26 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
     [getOwnerAndRepo, repoUrl],
   )
 
+
+  const fetchLatestCommit = async () => {
+    try {
+      const apiUrl = `https://api.github.com/repos/${getOwnerAndRepo(repoUrl)}/commits?per_page=1`;
+      const response = await axios.get(apiUrl);
+  
+      if (response.status === 200 && response.data.length > 0) {
+        const commit = response.data[0];
+        setCommitInfo({
+          hash: commit.sha.substring(0, 7),
+          message: commit.commit.message,
+          date: new Date(commit.commit.author.date).toLocaleDateString(),
+        });
+      }
+    } catch (err) {
+      console.error("Error fetching commit info:", err);
+      setCommitInfo(null); // Reset commit info in case of error
+    }
+  };
+  
   useEffect(() => {
     if (initialRepoUrl && repoUrl !== initialRepoUrl) {
       setRepoUrl(initialRepoUrl)
@@ -118,19 +148,31 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
     return () => unsubscribe()
   }, [user, fetchRepo, teamId])
 
+  useEffect(() => {
+    if (repoUrl) {
+      fetchLatestCommit();
+    }
+  }, [repoUrl]);
+  
+
+  // Update fetchFileContent to also fetch commit info
   const fetchFileContent = async (fileUrl: string, filePath: string) => {
     try {
-      const response = await axios.get(fileUrl)
-      if (response.status === 200) {
-        setFileContent(response.data)
-        setCurrentFilePath(filePath)
+      const [contentResponse] = await Promise.all([
+        axios.get(fileUrl),
+        fetchLatestCommit()
+      ]);
+
+      if (contentResponse.status === 200) {
+        setFileContent(contentResponse.data);
+        setCurrentFilePath(filePath);
       }
     } catch (err) {
-      console.error("Error fetching file:", err)
-      setError("Failed to fetch file content")
-      setToast({ message: "Failed to fetch file content", type: "error" })
+      console.error("Error fetching file:", err);
+      setError("Failed to fetch file content");
+      setToast({ message: "Failed to fetch file content", type: "error" });
     }
-  }
+  };
 
   const sortContents = (contents: any[]): RepoItem[] => {
     const folders = contents.filter((item) => item.type === "dir").map((item) => ({ ...item, children: [] }))
@@ -179,7 +221,7 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
                     toggleFolder(itemPath)
                     if (!expandedFolders[itemPath]) fetchRepo(itemPath)
                   }}
-                  className="flex items-center text-primary hover:underline"
+                  className="flex items-center dark:text-primary hover:underline"
                 >
                   <span className="mr-2">📁</span>
                   {item.name}
@@ -193,7 +235,7 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
             <li key={item.sha} className="py-1">
               <button
                 onClick={() => item.download_url && fetchFileContent(item.download_url, itemPath)}
-                className="flex items-center text-muted-foreground hover:text-primary hover:underline"
+                className="flex items-center text-muted-foreground dark:hover:text-primary hover:underline"
               >
                 <span className="mr-2">📄</span>
                 {item.name}
@@ -205,21 +247,24 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
     )
   }
 
+  // Update the renderBreadcrumbs function to show commit info
   const renderBreadcrumbs = () => {
-    if (!currentFilePath) return null
+    if (!currentFilePath) return null;
 
-    const segments = currentFilePath.split("/")
     return (
-      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
-        {segments.map((segment, index) => (
-          <React.Fragment key={index}>
-            {index > 0 && <span>/</span>}
-            <span>{segment}</span>
-          </React.Fragment>
-        ))}
+      <div className="flex flex-col gap-2 mb-4">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          {currentFilePath.split("/").map((segment, index) => (
+            <React.Fragment key={index}>
+              {index > 0 && <span>/</span>}
+              <span>{segment}</span>
+            </React.Fragment>
+          ))}
+        </div>
+        
       </div>
-    )
-  }
+    );
+  };
 
   if (loading) {
     return (
@@ -258,10 +303,22 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
             Repository:{" "}
-            <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+            <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="dark:text-primary hover:underline">
               {getOwnerAndRepo(repoUrl)}
             </a>
           </CardTitle>
+          {commitInfo && (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <GitCommitHorizontal className="h-4 w-4" />
+            <span>Latest commit:</span>
+            <span className="font-mono bg-muted px-1.5 py-0.5 rounded">
+              {commitInfo.hash}
+            </span>
+            <span>{commitInfo.message}</span>
+            <span>·</span>
+            <span>{commitInfo.date}</span>
+          </div>
+        )}
         </CardHeader>
         <CardContent className="h-[calc(100%-5rem)]">
           <div className="flex gap-6 h-full">
@@ -299,4 +356,3 @@ const GitData: React.FC<GitDataProps> = ({ initialRepoUrl }) => {
 }
 
 export default GitData
-
