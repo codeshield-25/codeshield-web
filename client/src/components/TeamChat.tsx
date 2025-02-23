@@ -6,12 +6,12 @@ import { useFirebaseChat } from "../hooks/useFirebaseChat";
 import { useScrollToBottom } from "../hooks/useScrollToBottom";
 import { useAuth } from "./AuthContext";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Hash, ChevronDown, Send, Copy, Check } from "lucide-react";
+import { Hash, Copy, Check } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism"; 
+import { dark, docco } from "react-syntax-highlighter/dist/esm/styles/hljs"
 
 interface TeamChatProps {
   teamId: string;
@@ -116,7 +116,7 @@ export default function TeamChat({ teamId, teamName }: TeamChatProps) {
                       </div>
                       <SyntaxHighlighter
                         language={msg.language || "javascript"}
-                        style={dracula}
+                        style={docco}
                         customStyle={{
                           margin: 0,
                           padding: "1rem",

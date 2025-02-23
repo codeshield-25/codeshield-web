@@ -174,7 +174,7 @@ export default function Landing() {
               <Button
                 variant="outline"
                 onClick={signIn}
-                className="border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-gray-900"
+                className="border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-gray-900 !bg-transparent"
               >
                 <FaGoogle className="mr-2" />
                 Sign in with Google

@@ -207,6 +207,10 @@ app.post("/votd/:votdId/complete", (req, res) => {
   res.status(404).json({ error: "VOTD not found" });
 });
 
+app.get('/', (req, res) => {
+    res.send('Server is running');
+});
+
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {

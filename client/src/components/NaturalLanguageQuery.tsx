@@ -233,7 +233,7 @@ export default function NaturalLanguageQueryChat() {
                           : message.thinking
                             ? "bg-gray-100 text-gray-600 dark:text-gray-800"
                             : "bg-gray-100 text-black dark:text-black"
-                      } ${message.content.includes("```") ? "max-w-[85%] w-[85%]" : "max-w-[85%]"}`}
+                      } ${message.content.includes("```") ? "max-w-[85%] w-[85%]" : ""}`}
                     >
                       {message.thinking ? (
                         <div className="flex items-center">
